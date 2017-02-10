@@ -1,0 +1,19 @@
+{
+  "name": "spaghetti-workflow",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {},
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-connect": "^4.0.0",
+    "gulp-elm": "^0.4.4",
+    "gulp-plumber": "^1.1.0",
+    "gulp-util": "^3.0.7"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Justin Noggle, Bradley Komeric",
+  "license": "MIT"
+}
