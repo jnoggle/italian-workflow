@@ -14,6 +14,6 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "Justin Noggle, Bradley Komeric",
+  "author": "Justin Noggle, Bradley Komareck",
   "license": "MIT"
 }
