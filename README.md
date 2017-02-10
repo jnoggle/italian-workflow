@@ -4,11 +4,19 @@ This is a workflow application written for Martinelli's Little Italy. It's inten
 
 ## Setup
 
-Nodejs
+### Nodejs
 
-Elm
+Download and install Node.js from https://nodejs.org/en/
 
-Gulp
+### Elm
+
+`npm install -g elm`
+`elm package install`
+
+### Gulp
+
+`npm install gulp-cli -g`
+`npm install gulp -D`
 
 ## License
 
