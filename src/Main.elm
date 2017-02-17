@@ -98,7 +98,7 @@ update msg model =
 
 apiUrl : String
 apiUrl =
-    "http://localhost:3001/"
+    "http://159.203.130.45:3001/"
 
 
 registerUrl : String

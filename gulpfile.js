@@ -41,7 +41,8 @@ gulp.task('watch', function () {
 gulp.task('connect', function () {
     connect.server({
         root: 'dist',
-        port: 3000
+        port: 80,
+        host: '159.203.130.45',
     });
 });
 
