@@ -1,9 +1,8 @@
-DROP DATABASE IF EXISTS italianworkflowDB;
+DROP DATABASE IF EXISTS italian_workflow;
 
-CREATE DATABASE italianworkflowDB;
+CREATE DATABASE italian_workflow;
 
-USE italianworkflowDB;
-GO
+USE italian_workflow;
 
 CREATE TABLE Users (
     user_id INT UNSIGNED NOT NULL AUTO_INCREMENT,
