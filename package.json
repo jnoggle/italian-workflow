@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "dependencies": {},
+  "dependencies": {
+    "express-myconnection": "^1.0.4"
+  },
   "devDependencies": {
     "gulp": "^3.9.1",
     "gulp-connect": "^4.0.0",
