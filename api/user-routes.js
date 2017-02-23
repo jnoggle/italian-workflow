@@ -1,7 +1,8 @@
 var express = require('express'),
     _ = require('lodash'),
     config = require('./config'),
-    jwt = require('jsonwebtoken');
+    jwt = require('jsonwebtoken'),
+    mysql = require('mysql');
 
 var app = module.exports = express.Router();
 

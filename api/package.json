@@ -13,6 +13,7 @@
   "author": "Justin Noggle, Bradley Komareck",
   "license": "MIT",
   "dependencies": {
+    "mysql": "github:mysqljs/mysql",
     "body-parser": "^1.16.1",
     "cors": "^2.8.1",
     "express": "^4.14.1",
