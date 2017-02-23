@@ -7,7 +7,7 @@ USE italian_workflow;
 CREATE TABLE Users (
     user_id INT UNSIGNED NOT NULL AUTO_INCREMENT,
     username VARCHAR(40) NOT NULL,
-    password CHAR(40) NOT NULL,
+    password CHAR(60) NOT NULL,
     PRIMARY KEY (user_id),
     UNIQUE (username)
 );
