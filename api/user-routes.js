@@ -56,8 +56,8 @@ app.post('/users', function (req, res) {
             res.status(201).send({
                 id_token: createToken(user)
             });
-        })
-    })
+        });
+    });
 });
 
 app.post('/sessions/create', function (req, res) {
