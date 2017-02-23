@@ -42,7 +42,7 @@ gulp.task('connect', function () {
     connect.server({
         root: 'dist',
         port: 3000,
-        host: '159.203.130.45',
+        host: 'localhost',
     });
 });
 
