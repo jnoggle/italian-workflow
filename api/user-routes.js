@@ -2,8 +2,8 @@ var express = require('express'),
     _ = require('lodash'),
     config = require('./config'),
     jwt = require('jsonwebtoken'),
-    // connection = require('express-myconnection'),
-    mysql = require('mysql');
+    mysql = require('mysql'),
+    bcrypt = require('bcrypt');
 
 var app = module.exports = express.Router();
 
@@ -14,6 +14,8 @@ var conn = mysql.createConnection({
     password: 'iwapp3741982351',
     database: 'italian_workflow',
 });
+
+const saltRounds = 10;
 
 function createToken(user) {
     return jwt.sign(_.omit(user, 'password'), config.secret, { expiresIn: 60 * 60 * 5 });
@@ -38,7 +40,12 @@ app.post('/users', function (req, res) {
             return res.status(400).send("There is already a user with that name");
         }
 
-        var user = _.pick(req.body, 'username', 'password');
+        var hash = bcrypt.hashSync(password, saltRounds);
+
+        var user = {
+            username: username,
+            password: hash
+        }
 
         var sql = 'INSERT INTO Users ? ';
         var query = conn.query("INSERT INTO Users set ? ", user, function (err, results) {
@@ -60,9 +67,10 @@ app.post('/sessions/create', function (req, res) {
     if (!username || !password) {
         return res.status(400).send("Please enter your username and password");
     }
-    var user = _.pick(req.body, 'username', 'password');
 
-    var query = conn.query("SELECT * FROM Users WHERE username = ? AND password = ? ", [user.username, user.password], function (err, results) {
+    var hash = bcrypt.hashSync(password, saltRounds);
+
+    var query = conn.query("SELECT * FROM Users WHERE username = ? ", [username], function (err, results) {
         if (err) {
             console.log(err);
             return res.status(400).send("Database error");
@@ -71,8 +79,17 @@ app.post('/sessions/create', function (req, res) {
         if (results.length != 1) {
             return res.status(401).send("The username or password doesn't match");
         }
-        res.status(201).send({
-            id_token: createToken(user)
-        });
+
+        storedHash = results[0].password;
+
+        if (bcrypt.compareSync(password, storedHash)) {
+            res.status(201).send({
+                id_token: createToken({ username: username, password: storedHash })
+            });
+        }
+
+        else {
+            return res.status(401).send("The username or password doesn't match");
+        }
     })
 });
