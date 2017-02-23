@@ -1,3 +1,8 @@
 {
-    "secret": "34iH(df()K@#da}{lhiY#WHhhnDfjVSE//><cm"
+    "secret": "34iH(df()K@#da}{lhiY#WHhhnDfjVSE//><cm",
+    "sql_host": "localhost",
+    "sql_user": "iwapp",
+    "sql_port": "3306",
+    "sql_password": "iwapp3741982351",
+    "sql_database": "italian_workflow"
 }

@@ -8,11 +8,11 @@ var express = require('express'),
 var app = module.exports = express.Router();
 
 var conn = mysql.createConnection({
-    host: 'localhost',
-    user: 'iwapp',
-    port: '3306',
-    password: 'iwapp3741982351',
-    database: 'italian_workflow',
+    host: config.sql_host,
+    user: config.sql_user,
+    port: config.sql_port,
+    password: config.sql_password,
+    database: config.sql_database,
 });
 
 const saltRounds = 10;
