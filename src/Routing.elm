@@ -1,0 +1,29 @@
+module Routing exposing (..)
+
+import Navigation exposing (Location)
+import UrlParser exposing (..)
+
+
+type Route
+    = LoginRoute
+    | GiftCertificatesRoute
+    | NotFoundRoute
+
+
+matchers : Parser (Route -> a) a
+matchers =
+    oneOf
+        [ map LoginRoute top
+        , map LoginRoute (s "login")
+        , map GiftCertificatesRoute (s "giftcertificates")
+        ]
+
+
+parseLocation : Location -> Route
+parseLocation location =
+    case (parseHash matchers location) of
+        Just route ->
+            route
+
+        Nothing ->
+            NotFoundRoute
