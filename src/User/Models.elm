@@ -1,16 +1,17 @@
 module User.Models exposing (..)
 
 
-type alias UserId =
-    String
+type Field
+    = Username
+    | Password
 
 
 type alias User =
-    { id : UserId
+    { id : String
     , username : String
     , password : String
     , token : String
-    , errorMsg : String
+    , msg : String
     }
 
 

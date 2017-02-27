@@ -1,7 +1,7 @@
 module User.Update exposing (..)
 
 import User.Messages exposing (Msg(..))
-import User.Models exposing (User)
+import User.Models exposing (User, Field(..))
 import Navigation
 import User.Commands exposing (..)
 
@@ -9,20 +9,22 @@ import User.Commands exposing (..)
 update : Msg -> User -> ( User, Cmd Msg )
 update msg user =
     case msg of
-        SetUsername username ->
-            ( { user | username = username }, Cmd.none )
+        FormInput inputId val ->
+            case inputId of
+                Username ->
+                    ( { user | username = val }, Cmd.none )
 
-        SetPassword password ->
-            ( { user | password = password }, Cmd.none )
+                Password ->
+                    ( { user | password = val }, Cmd.none )
 
         RegisterUser ->
             ( user, authUserCmd user registerUrl )
 
         GetTokenSuccess (Ok newToken) ->
-            ( { user | token = newToken, password = "", errorMsg = "" }, Cmd.none )
+            ( { user | token = newToken, password = "", msg = "" }, Cmd.none )
 
         GetTokenSuccess (Err error) ->
-            ( { user | errorMsg = (toString error) }, Cmd.none )
+            ( { user | msg = (toString error) }, Cmd.none )
 
         LogIn ->
             ( user, authUserCmd user loginUrl )
