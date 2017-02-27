@@ -14,12 +14,12 @@ apiUrl =
 
 registerUrl : String
 registerUrl =
-    apiUrl ++ "users"
+    apiUrl ++ "users/create"
 
 
 loginUrl : String
 loginUrl =
-    apiUrl ++ "sessions/create"
+    apiUrl ++ "users/login"
 
 
 userEncoder : User -> Encode.Value
