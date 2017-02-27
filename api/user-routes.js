@@ -97,7 +97,7 @@ app.post('/users/login', function (req, res) {
 
 app.get('/users', function (req, res) {
     var users = [{ name: 'Alice', id: '1' }, { name: 'Bob', id: '2' }];
-    return res.status(200).json(JSON.stringify(users))
+    return res.status(200).json(JSON.stringify(users));
 });
 
 app.delete('/users', function (req, res) {
