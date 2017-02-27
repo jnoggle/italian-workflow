@@ -21,7 +21,7 @@ view user =
             let
                 showError : String
                 showError =
-                    if String.isEmpty user.errorMsg then
+                    if String.isEmpty user.msg then
                         "hidden"
                     else
                         ""
@@ -43,18 +43,18 @@ view user =
                         [ h2 [ class "text-center" ] [ text "Log in or Register" ]
                         , p [ class "help-block" ] [ text "If you already have an account, please Log In. Otherwise, enter your desired username and password and Register." ]
                         , div [ class showError ]
-                            [ div [ class "alert alert-danger" ] [ text user.errorMsg ]
+                            [ div [ class "alert alert-danger" ] [ text user.msg ]
                             ]
                         , div [ class "form-group row" ]
                             [ div [ class "col-md-offset-2 col-md-8" ]
                                 [ label [ for "username" ] [ text "Username:" ]
-                                , input [ id "username", type_ "text", class "form-control", Html.Attributes.value user.username, onInput SetUsername ] []
+                                , input [ id "username", type_ "text", class "form-control", Html.Attributes.value user.username, onInput (FormInput Username) ] []
                                 ]
                             ]
                         , div [ class "form-group row" ]
                             [ div [ class "col-md-offset-2 col-md-8" ]
                                 [ label [ for "password" ] [ text "Password:" ]
-                                , input [ id "password", type_ "password", class "form-control", Html.Attributes.value user.password, onInput SetPassword ] []
+                                , input [ id "password", type_ "password", class "form-control", Html.Attributes.value user.password, onInput (FormInput Password) ] []
                                 ]
                             ]
                         , div [ class "text-center" ]

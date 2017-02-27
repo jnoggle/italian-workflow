@@ -5,8 +5,7 @@ import User.Models exposing (..)
 
 
 type Msg
-    = SetUsername String
-    | SetPassword String
+    = FormInput Field String
     | GetTokenSuccess (Result Http.Error String)
     | RegisterUser
     | LogIn
