@@ -5,6 +5,7 @@ var express = require('express'),
     mysql = require('mysql'),
     bcrypt = require('bcrypt');
 
+
 var app = module.exports = express.Router();
 
 var conn = mysql.createConnection({
@@ -21,7 +22,7 @@ function createToken(user) {
     return jwt.sign(_.omit(user, 'password'), config.secret, { expiresIn: 60 * 60 * 5 });
 }
 
-app.post('/users', function (req, res) {
+app.post('/users/create', function (req, res) {
     var username = req.body.username;
     var password = req.body.password;
 
@@ -53,14 +54,14 @@ app.post('/users', function (req, res) {
                 console.log(err);
                 return res.status(400).send("Database error");
             }
-            res.status(201).send({
+            res.status(200).send({
                 id_token: createToken(user)
             });
         });
     });
 });
 
-app.post('/sessions/create', function (req, res) {
+app.post('/users/login', function (req, res) {
     var username = req.body.username;
     var password = req.body.password;
 
@@ -92,4 +93,17 @@ app.post('/sessions/create', function (req, res) {
             return res.status(401).send("The username or password doesn't match");
         }
     })
+});
+
+app.get('/users', function (req, res) {
+    var users = [{ name: 'Alice', id: '1' }, { name: 'Bob', id: '2' }];
+    return res.status(200).json(JSON.stringify(users))
+});
+
+app.delete('/users', function (req, res) {
+    if (!req.id) {
+        return res.status(400).send("No id supplied");
+    }
+
+    return res.status(200);
 });
