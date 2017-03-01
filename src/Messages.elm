@@ -10,4 +10,5 @@ type Msg
     | Login
     | Logout
     | Authorization (Result Http.Error String)
+    | GiftCertificates
     | OnLocationChange Location

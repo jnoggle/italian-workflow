@@ -1,5 +1,6 @@
 module Update exposing (..)
 
+import Navigation
 import Messages exposing (Msg(..))
 import Models exposing (Model, Field(..))
 import Commands exposing (..)
@@ -35,3 +36,6 @@ update msg model =
                     parseLocation location
             in
                 ( { model | route = newRoute }, Cmd.none )
+
+        GiftCertificates ->
+            ( model, Navigation.newUrl "#giftcertificates" )

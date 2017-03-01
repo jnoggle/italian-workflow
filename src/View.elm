@@ -93,6 +93,7 @@ loginView model =
                             ]
                         , div [ class "text-center" ]
                             [ button [ class "btn btn-primary", onClick Login ] [ text "Log In" ]
+                            , button [ class "btn", onClick GiftCertificates ] [ text "Gift Certificates" ]
                             ]
                         ]
     in
