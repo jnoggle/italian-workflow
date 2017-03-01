@@ -1,9 +1,13 @@
 module Messages exposing (..)
 
+import Http
 import Navigation exposing (Location)
-import User.Messages
+import Models exposing (Field)
 
 
 type Msg
-    = UserMsg User.Messages.Msg
+    = LoginFormInput Field String
+    | Login
+    | Logout
+    | Authorization (Result Http.Error String)
     | OnLocationChange Location
