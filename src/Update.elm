@@ -1,6 +1,7 @@
 module Update exposing (..)
 
 import Navigation
+import Material
 import Messages exposing (Msg(..))
 import Models exposing (Model, Field(..))
 import Commands exposing (..)
@@ -39,3 +40,6 @@ update msg model =
 
         GiftCertificates ->
             ( model, Navigation.newUrl "#giftcertificates" )
+
+        Mdl msg_ ->
+            Material.update Mdl msg_ model

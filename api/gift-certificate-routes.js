@@ -73,5 +73,12 @@ app.get('/gift-certificates', function (req, res) {
             return res.status(400).send("Database error");
         }
         res.status(200).json(JSON.stringify(users));
-    })
+    });
+});
+
+app.get('/gift-certificates/:dates', function (req, res) {
+    var begin_data = req.body.begin_date;
+    var end_date = req.body.end_date;
+
+    var sql = 'SELECT * FROM GiftCertificates WHERE date '
 })

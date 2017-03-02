@@ -1,5 +1,6 @@
 module Models exposing (..)
 
+import Material
 import Routing
 
 
@@ -15,9 +16,10 @@ type alias Model =
     , token : String
     , errorMsg : String
     , route : Routing.Route
+    , mdl : Material.Model
     }
 
 
 initialModel : Routing.Route -> Model
 initialModel route =
-    Model "" "" "" "" "" route
+    Model "" "" "" "" "" route Material.model

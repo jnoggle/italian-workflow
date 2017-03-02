@@ -1,6 +1,7 @@
 module Main exposing (..)
 
 import Navigation exposing (Location)
+import Material
 import Messages exposing (Msg(..))
 import Models exposing (Model, initialModel)
 import Update exposing (update)
@@ -23,7 +24,7 @@ init location =
 
 subscriptions : Model -> Sub Msg
 subscriptions model =
-    Sub.none
+    Material.subscriptions Mdl model
 
 
 
