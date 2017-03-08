@@ -7,6 +7,7 @@ import UrlParser exposing (..)
 type Route
     = LoginRoute
     | GiftCertificatesRoute
+    | AddGiftCertificateRoute
     | NotFoundRoute
 
 
@@ -16,6 +17,7 @@ matchers =
         [ map LoginRoute top
         , map LoginRoute (s "login")
         , map GiftCertificatesRoute (s "giftcertificates")
+        , map AddGiftCertificateRoute (s "giftcertificates/add")
         ]
 
 

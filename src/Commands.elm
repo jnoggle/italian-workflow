@@ -14,7 +14,7 @@ apiUrl =
 
 loginUrl : String
 loginUrl =
-    apiUrl ++ "users/login"
+    apiUrl ++ "authenticate"
 
 
 userEncoder : Model -> Encode.Value

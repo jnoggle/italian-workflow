@@ -7,6 +7,7 @@ import Models exposing (Model, initialModel)
 import Update exposing (update)
 import View exposing (view)
 import Routing exposing (Route)
+import GiftCertificates.Commands exposing (fetchAll)
 
 
 init : Location -> ( Model, Cmd Msg )
@@ -15,7 +16,7 @@ init location =
         currentRoute =
             Routing.parseLocation location
     in
-        ( initialModel currentRoute, Cmd.none )
+        ( initialModel currentRoute, Cmd.map GiftCertificateMsg fetchAll )
 
 
 

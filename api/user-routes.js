@@ -22,7 +22,7 @@ function createToken(user) {
     return jwt.sign(_.omit(user, 'password'), config.secret, { expiresIn: 60 * 60 * 5 });
 }
 
-app.post('/users/create', function (req, res) {
+app.post('/users', function (req, res) {
     var username = req.body.username;
     var password = req.body.password;
 
@@ -61,7 +61,7 @@ app.post('/users/create', function (req, res) {
     });
 });
 
-app.post('/users/login', function (req, res) {
+app.post('/authenticate', function (req, res) {
     var username = req.body.username;
     var password = req.body.password;
 
@@ -95,15 +95,33 @@ app.post('/users/login', function (req, res) {
     })
 });
 
-app.get('/users', function (req, res) {
+app.get('/users/:page?', function (req, res) {
     var users = [{ name: 'Alice', id: '1' }, { name: 'Bob', id: '2' }];
     return res.status(200).json(JSON.stringify(users));
 });
 
-app.delete('/users', function (req, res) {
-    if (!req.id) {
+app.delete('/users/:id', function (req, res) {
+    if (!req.params.id) {
         return res.status(400).send("No id supplied");
     }
 
     return res.status(200);
 });
+
+app.get('/users/:id', function (req, res) {
+    if (!req.params.id) {
+        return res.status(400).send("No id supplied");
+    }
+
+    if (req.params.id !== 1) {
+        return res.status(401).send("Resource not found");
+    }
+
+    user = {
+        username: 'Alice',
+        last_name: 'Brown',
+        first_name: 'Alice'
+    }
+
+    return res.status(200).json(user);
+})

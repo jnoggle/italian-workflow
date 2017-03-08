@@ -6,6 +6,7 @@ import Messages exposing (Msg(..))
 import Models exposing (Model, Field(..))
 import Commands exposing (..)
 import Routing exposing (parseLocation)
+import GiftCertificates.Update
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -37,6 +38,13 @@ update msg model =
                     parseLocation location
             in
                 ( { model | route = newRoute }, Cmd.none )
+
+        GiftCertificateMsg subMsg ->
+            let
+                ( updatedGiftCertificates, cmd ) =
+                    GiftCertificates.Update.update subMsg model.giftCertificates
+            in
+                ( { model | giftCertificates = updatedGiftCertificates }, Cmd.map GiftCertificateMsg cmd )
 
         GiftCertificates ->
             ( model, Navigation.newUrl "#giftcertificates" )

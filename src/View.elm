@@ -16,6 +16,8 @@ import Material.Options as Options exposing (css, cs, when)
 import Messages exposing (Msg(..))
 import Models exposing (Model, Field(..))
 import Routing exposing (Route(..))
+import GiftCertificates.List
+import GiftCertificates.Add
 
 
 type alias Mdl =
@@ -50,17 +52,13 @@ viewBody model =
             loginView model
 
         GiftCertificatesRoute ->
-            giftCertificatesPage model
+            Html.map GiftCertificateMsg (GiftCertificates.List.view model.giftCertificates)
+
+        AddGiftCertificateRoute ->
+            Html.map GiftCertificateMsg (GiftCertificates.Add.view model.giftCertificates)
 
         NotFoundRoute ->
             notFoundView
-
-
-giftCertificatesPage : Model -> Html Msg
-giftCertificatesPage model =
-    div []
-        [ text "Not implemented"
-        ]
 
 
 notFoundView : Html Msg

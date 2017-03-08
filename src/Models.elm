@@ -2,6 +2,7 @@ module Models exposing (..)
 
 import Material
 import Routing
+import GiftCertificates.Models exposing (Model, initialModel)
 
 
 type Field
@@ -15,6 +16,7 @@ type alias Model =
     , password : String
     , token : String
     , errorMsg : String
+    , giftCertificates : GiftCertificates.Models.Model
     , route : Routing.Route
     , mdl : Material.Model
     }
@@ -22,4 +24,4 @@ type alias Model =
 
 initialModel : Routing.Route -> Model
 initialModel route =
-    Model "" "" "" "" "" route Material.model
+    Model "" "" "" "" "" GiftCertificates.Models.initialModel route Material.model

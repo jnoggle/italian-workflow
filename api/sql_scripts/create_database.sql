@@ -17,7 +17,7 @@ CREATE TABLE Users (
 CREATE TABLE GiftCertificates (
     id INT UNSIGNED NOT NULL AUTO_INCREMENT,
     amount DECIMAL(10, 2) NOT NULL,
-    sale_price,
+    sale_price NOT NULL,
     date_sold DATE NOT NULL,
     redeemed_date DATE,
     issuer_id INT UNSIGNED NOT NULL,
