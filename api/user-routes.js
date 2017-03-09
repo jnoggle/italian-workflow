@@ -48,7 +48,43 @@ app.post('/users', function (req, res) {
             password: hash
         }
 
-        var sql = 'INSERT INTO Users ? ';
+        var giftCertificate = {
+            id: req.body.id,
+            amount: req.body.amount,
+            sale_price: req.body.sale_price,
+            date_sold: req.body.date_sold,
+            date_redeemed: req.body.date_redeemed,
+            issuer_id: req.body.issuer_id,
+            memo: req.body.memo
+        }
+
+        if (!memo) {
+            var giftCertificate = {
+                id: req.body.id,
+                amount: req.body.amount,
+                sale_price: req.body.sale_price,
+                date_sold: req.body.date_sold,
+                date_redeemed: req.body.date_redeemed,
+                issuer_id: req.body.issuer_id,
+
+            }
+        }
+        else {
+            var giftCertificate = {
+                id: req.body.id,
+                amount: req.body.amount,
+                sale_price: req.body.sale_price,
+                date_sold: req.body.date_sold,
+                date_redeemed: req.body.date_redeemed,
+                issuer_id: req.body.issuer_id,
+                memo: req.body.memo
+            }
+        }
+
+        var query = conn.query("INSERT INTO GiftCertificates set ? ", giftCertificate, function (err, results) {
+
+        });
+
         var query = conn.query("INSERT INTO Users set ? ", user, function (err, results) {
             if (err) {
                 console.log(err);
@@ -68,6 +104,12 @@ app.post('/authenticate', function (req, res) {
     if (!username || !password) {
         return res.status(400).send("Please enter your username and password");
     }
+
+
+
+    var searchField = req.body.searchField;
+
+    var query = 'SELECT * FROM GiftCertificates ORDER BY ? ' + [searchField];
 
     var hash = bcrypt.hashSync(password, saltRounds);
 
