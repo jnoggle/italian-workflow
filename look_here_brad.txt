@@ -1,0 +1,25 @@
+
+        if (!memo) {
+            var giftCertificate = {
+                id: req.body.id,
+                amount: req.body.amount,
+                sale_price: req.body.sale_price,
+                date_sold: req.body.date_sold,
+                issuer_id: req.body.issuer_id,
+
+            }
+        }
+        else {
+            var giftCertificate = {
+                id: req.body.id,
+                amount: req.body.amount,
+                sale_price: req.body.sale_price,
+                date_sold: req.body.date_sold,
+                issuer_id: req.body.issuer_id,
+                memo: req.body.memo
+            }
+        }
+
+        var query = conn.query("INSERT INTO GiftCertificates set ? ", giftCertificate, function (err, results) {
+
+        });
