@@ -82,8 +82,3 @@ app.get('/gift-certificates', function (req, res) {
         res.status(200).json(JSON.stringify(results));
     });
 });
-
-
-var searchField = req.body.searchField;
-
-var query = 'SELECT * FROM GiftCertificates ORDER BY ? ' + [searchField];
