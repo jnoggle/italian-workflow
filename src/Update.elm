@@ -24,7 +24,7 @@ update msg model =
             ( model, authUserCmd model loginUrl )
 
         Logout ->
-            ( { model | username = "", token = "" }, Cmd.none )
+            ( { model | username = "", token = "" }, Navigation.newUrl "#login" )
 
         Authorization (Ok newToken) ->
             ( { model | token = newToken, password = "", errorMsg = "" }, Cmd.none )

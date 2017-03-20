@@ -16589,14 +16589,16 @@ var _user$project$GiftCertificates_Models$NewGiftCertificate = F3(
 	function (a, b, c) {
 		return {amount: a, sale_price: b, memo: c};
 	});
-var _user$project$GiftCertificates_Models$Model = F3(
-	function (a, b, c) {
-		return {giftCertificates: a, newGiftCertificate: b, mdl: c};
+var _user$project$GiftCertificates_Models$Model = F5(
+	function (a, b, c, d, e) {
+		return {giftCertificates: a, newGiftCertificate: b, postedGiftCertificateId: c, errorMsg: d, mdl: e};
 	});
-var _user$project$GiftCertificates_Models$initialModel = A3(
+var _user$project$GiftCertificates_Models$initialModel = A5(
 	_user$project$GiftCertificates_Models$Model,
 	{ctor: '[]'},
 	A3(_user$project$GiftCertificates_Models$NewGiftCertificate, '', '', ''),
+	'',
+	'',
 	_debois$elm_mdl$Material$model);
 var _user$project$GiftCertificates_Models$Nothing = {ctor: 'Nothing'};
 var _user$project$GiftCertificates_Models$Just = function (a) {
@@ -16611,11 +16613,18 @@ var _user$project$Models$initialModel = function (route) {
 };
 var _user$project$Models$Password = {ctor: 'Password'};
 var _user$project$Models$Username = {ctor: 'Username'};
+var _user$project$GiftCertificates_Messages$Mdl = function (a) {
+	return {ctor: 'Mdl', _0: a};
+};
+var _user$project$GiftCertificates_Messages$OnGiftCertificatePosted = function (a) {
+	return {ctor: 'OnGiftCertificatePosted', _0: a};
+};
 var _user$project$GiftCertificates_Messages$AddGiftCertificate = {ctor: 'AddGiftCertificate'};
 var _user$project$GiftCertificates_Messages$ListGiftCertificates = {ctor: 'ListGiftCertificates'};
 var _user$project$GiftCertificates_Messages$OnFetchAll = function (a) {
 	return {ctor: 'OnFetchAll', _0: a};
 };
+var _user$project$GiftCertificates_Messages$FetchGiftCertificates = {ctor: 'FetchGiftCertificates'};
 var _user$project$Messages$Mdl = function (a) {
 	return {ctor: 'Mdl', _0: a};
 };
@@ -16689,7 +16698,83 @@ var _user$project$GiftCertificates_Add$view = function (model) {
 			_1: {ctor: '[]'}
 		});
 };
-var _user$project$GiftCertificates_Commands$fetchAll = _elm_lang$core$Platform_Cmd$none;
+var _user$project$GiftCertificates_Commands$giftCertificateDecoder = A8(
+	_elm_lang$core$Json_Decode$map7,
+	_user$project$GiftCertificates_Models$GiftCertificate,
+	A2(_elm_lang$core$Json_Decode$field, 'id', _elm_lang$core$Json_Decode$string),
+	A2(_elm_lang$core$Json_Decode$field, 'amount', _elm_lang$core$Json_Decode$string),
+	A2(_elm_lang$core$Json_Decode$field, 'sale_price', _elm_lang$core$Json_Decode$string),
+	A2(_elm_lang$core$Json_Decode$field, 'date_sold', _elm_lang$core$Json_Decode$string),
+	A2(_elm_lang$core$Json_Decode$field, 'redeemed_date', _elm_lang$core$Json_Decode$string),
+	A2(_elm_lang$core$Json_Decode$field, 'issuer_id', _elm_lang$core$Json_Decode$string),
+	A2(_elm_lang$core$Json_Decode$field, 'memo', _elm_lang$core$Json_Decode$string));
+var _user$project$GiftCertificates_Commands$getGiftCertificates = function (apiUrl) {
+	return _elm_lang$http$Http$request(
+		{
+			method: 'GET',
+			expect: _elm_lang$http$Http$expectJson(
+				_elm_lang$core$Json_Decode$list(_user$project$GiftCertificates_Commands$giftCertificateDecoder)),
+			timeout: _elm_lang$core$Maybe$Nothing,
+			withCredentials: false,
+			headers: {ctor: '[]'},
+			url: apiUrl,
+			body: _elm_lang$http$Http$emptyBody
+		});
+};
+var _user$project$GiftCertificates_Commands$giftCertificateEncoder = function (giftCertificate) {
+	return _elm_lang$core$Json_Encode$object(
+		{
+			ctor: '::',
+			_0: {
+				ctor: '_Tuple2',
+				_0: 'amount',
+				_1: _elm_lang$core$Json_Encode$string(giftCertificate.amount)
+			},
+			_1: {
+				ctor: '::',
+				_0: {
+					ctor: '_Tuple2',
+					_0: 'sale_price',
+					_1: _elm_lang$core$Json_Encode$string(giftCertificate.sale_price)
+				},
+				_1: {
+					ctor: '::',
+					_0: {
+						ctor: '_Tuple2',
+						_0: 'memo',
+						_1: _elm_lang$core$Json_Encode$string(giftCertificate.memo)
+					},
+					_1: {ctor: '[]'}
+				}
+			}
+		});
+};
+var _user$project$GiftCertificates_Commands$postGiftCertificate = F2(
+	function (giftCertificate, apiUrl) {
+		return _elm_lang$http$Http$request(
+			{
+				method: 'POST',
+				expect: _elm_lang$http$Http$expectJson(_user$project$GiftCertificates_Commands$giftCertificateDecoder),
+				timeout: _elm_lang$core$Maybe$Nothing,
+				withCredentials: false,
+				headers: {ctor: '[]'},
+				url: apiUrl,
+				body: _elm_lang$http$Http$jsonBody(
+					_user$project$GiftCertificates_Commands$giftCertificateEncoder(giftCertificate))
+			});
+	});
+var _user$project$GiftCertificates_Commands$apiUrl = 'http://localhost:3001/';
+var _user$project$GiftCertificates_Commands$giftCertificateUrl = A2(_elm_lang$core$Basics_ops['++'], _user$project$GiftCertificates_Commands$apiUrl, 'gift-certificates');
+var _user$project$GiftCertificates_Commands$postGiftCertificateCmd = function (giftCertificate) {
+	return A2(
+		_elm_lang$http$Http$send,
+		_user$project$GiftCertificates_Messages$OnGiftCertificatePosted,
+		A2(_user$project$GiftCertificates_Commands$postGiftCertificate, giftCertificate, _user$project$GiftCertificates_Commands$giftCertificateUrl));
+};
+var _user$project$GiftCertificates_Commands$fetchAll = A2(
+	_elm_lang$http$Http$send,
+	_user$project$GiftCertificates_Messages$OnFetchAll,
+	_user$project$GiftCertificates_Commands$getGiftCertificates(_user$project$GiftCertificates_Commands$giftCertificateUrl));
 var _user$project$GiftCertificates_List$giftCertificateRow = function (giftCertificate) {
 	return A2(
 		_debois$elm_mdl$Material_Table$tr,
@@ -16899,14 +16984,52 @@ var _user$project$GiftCertificates_List$view = function (model) {
 		{ctor: '[]'},
 		{
 			ctor: '::',
-			_0: _user$project$GiftCertificates_List$table(model.giftCertificates),
-			_1: {ctor: '[]'}
+			_0: A5(
+				_debois$elm_mdl$Material_Button$render,
+				_user$project$GiftCertificates_Messages$Mdl,
+				{
+					ctor: '::',
+					_0: 3,
+					_1: {ctor: '[]'}
+				},
+				model.mdl,
+				{
+					ctor: '::',
+					_0: _debois$elm_mdl$Material_Options$onClick(_user$project$GiftCertificates_Messages$FetchGiftCertificates),
+					_1: {ctor: '[]'}
+				},
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html$text('Load Gift Certificates'),
+					_1: {ctor: '[]'}
+				}),
+			_1: {
+				ctor: '::',
+				_0: A2(
+					_elm_lang$html$Html$div,
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html_Attributes$class('text-center'),
+						_1: {ctor: '[]'}
+					},
+					{
+						ctor: '::',
+						_0: _user$project$GiftCertificates_List$table(model.giftCertificates),
+						_1: {ctor: '[]'}
+					}),
+				_1: {ctor: '[]'}
+			}
 		});
+};
+var _user$project$GiftCertificates_Subscriptions$subscriptions = function (model) {
+	return A2(_debois$elm_mdl$Material$subscriptions, _user$project$GiftCertificates_Messages$Mdl, model);
 };
 var _user$project$GiftCertificates_Update$update = F2(
 	function (message, model) {
 		var _p0 = message;
 		switch (_p0.ctor) {
+			case 'FetchGiftCertificates':
+				return {ctor: '_Tuple2', _0: model, _1: _user$project$GiftCertificates_Commands$fetchAll};
 			case 'OnFetchAll':
 				if (_p0._0.ctor === 'Ok') {
 					return {
@@ -16925,12 +17048,34 @@ var _user$project$GiftCertificates_Update$update = F2(
 					_0: model,
 					_1: _elm_lang$navigation$Navigation$newUrl('#giftcertificates')
 				};
-			default:
+			case 'AddGiftCertificate':
 				return {
 					ctor: '_Tuple2',
 					_0: model,
 					_1: _elm_lang$navigation$Navigation$newUrl('#giftcertificates/add')
 				};
+			case 'OnGiftCertificatePosted':
+				if (_p0._0.ctor === 'Ok') {
+					return {
+						ctor: '_Tuple2',
+						_0: _elm_lang$core$Native_Utils.update(
+							model,
+							{postedGiftCertificateId: _p0._0._0.id}),
+						_1: _elm_lang$core$Platform_Cmd$none
+					};
+				} else {
+					return {
+						ctor: '_Tuple2',
+						_0: _elm_lang$core$Native_Utils.update(
+							model,
+							{
+								errorMsg: _elm_lang$core$Basics$toString(_p0._0._0)
+							}),
+						_1: _elm_lang$core$Platform_Cmd$none
+					};
+				}
+			default:
+				return A3(_debois$elm_mdl$Material$update, _user$project$GiftCertificates_Messages$Mdl, _p0._0, model);
 		}
 	});
 var _user$project$Update$update = F2(
@@ -17705,7 +17850,19 @@ var _user$project$View$MenuItem = F3(
 		return {text: a, iconName: b, route: c};
 	});
 var _user$project$Main$subscriptions = function (model) {
-	return A2(_debois$elm_mdl$Material$subscriptions, _user$project$Messages$Mdl, model);
+	return _elm_lang$core$Platform_Sub$batch(
+		{
+			ctor: '::',
+			_0: A2(_debois$elm_mdl$Material$subscriptions, _user$project$Messages$Mdl, model),
+			_1: {
+				ctor: '::',
+				_0: A2(
+					_elm_lang$core$Platform_Sub$map,
+					_user$project$Messages$GiftCertificateMsg,
+					_user$project$GiftCertificates_Subscriptions$subscriptions(model.giftCertificates)),
+				_1: {ctor: '[]'}
+			}
+		});
 };
 var _user$project$Main$init = function (location) {
 	var currentRoute = _user$project$Routing$parseLocation(location);

@@ -3,19 +3,19 @@ module GiftCertificates.Models exposing (..)
 import Material
 
 
-type Maybe a
-    = Just a
-    | Nothing
+-- type Maybe a
+--     = Just a
+--     | Nothing
 
 
 type alias GiftCertificate =
-    { id : String
-    , amount : String
-    , sale_price : String
+    { id : Int
+    , amount : Float
+    , sale_price : Float
     , date_sold : String
-    , redeemed_date : String
-    , issuer_id : String
-    , memo : String
+    , redeemed_date : Maybe String
+    , issuer_id : Int
+    , memo : Maybe String
     }
 
 
@@ -29,10 +29,12 @@ type alias NewGiftCertificate =
 type alias Model =
     { giftCertificates : List GiftCertificate
     , newGiftCertificate : NewGiftCertificate
+    , postedGiftCertificateId : Maybe Int
+    , errorMsg : String
     , mdl : Material.Model
     }
 
 
 initialModel : Model
 initialModel =
-    Model [] (NewGiftCertificate "" "" "") Material.model
+    Model [] (NewGiftCertificate "" "" "") Maybe.Nothing "" Material.model

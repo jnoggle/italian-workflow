@@ -8,6 +8,7 @@ import Update exposing (update)
 import View exposing (view)
 import Routing exposing (Route)
 import GiftCertificates.Commands exposing (fetchAll)
+import GiftCertificates.Subscriptions
 
 
 init : Location -> ( Model, Cmd Msg )
@@ -16,7 +17,7 @@ init location =
         currentRoute =
             Routing.parseLocation location
     in
-        ( initialModel currentRoute, Cmd.map GiftCertificateMsg fetchAll )
+        ( initialModel currentRoute, Cmd.none )
 
 
 
@@ -25,7 +26,10 @@ init location =
 
 subscriptions : Model -> Sub Msg
 subscriptions model =
-    Material.subscriptions Mdl model
+    Sub.batch
+        [ Material.subscriptions Mdl model
+        , Sub.map GiftCertificateMsg <| GiftCertificates.Subscriptions.subscriptions model.giftCertificates
+        ]
 
 
 

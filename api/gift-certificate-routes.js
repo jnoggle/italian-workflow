@@ -62,7 +62,7 @@ app.get('/gift-certificates/:id', function (req, res) {
         return res.status(400).send("Please enter an id");
     }
 
-    var sql = 'SELECT * FROM GiftCertificates WHERE id = ' + conn.escape(id);
+    var sql = 'SELECT * FROM GiftCertificates WHERE gift_certificate_id = ' + conn.escape(id);
     var query = conn.query(sql, function (err, results) {
         if (err) {
             console.log(err);
@@ -79,6 +79,28 @@ app.get('/gift-certificates', function (req, res) {
             console.log(err);
             return res.status(400).send("Database error");
         }
-        res.status(200).json(JSON.stringify(results));
+        
+        // results = [
+        //     {
+        //         "gift_certificate_id": "1",
+        //         "amount": "25.00",
+        //         "sale_price": "25.00",
+        //         "date_sold": "2012-12-12",
+        //         "date_redeemed": "None",
+        //         "issuer_id": "1",
+        //         "memo": "LongCatIsObviouslyLong"
+        //     },
+        //     {
+        //         "gift_certificate_id": "2",
+        //         "amount": "50.00",
+        //         "sale_price": "25.00",
+        //         "date_sold": "2012-12-07",
+        //         "date_redeemed": "None",
+        //         "issuer_id": "1",
+        //         "memo": "LongCatIsSoCrazyLong"
+        //     }
+        // ];
+        console.log(results);
+        res.status(200).json(results);
     });
 });

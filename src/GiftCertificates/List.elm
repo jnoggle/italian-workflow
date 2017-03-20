@@ -5,14 +5,25 @@ import Html.Attributes exposing (class)
 import Html.Events exposing (onClick)
 import Material
 import Material.Table as Table
+import Material.Button as Button
+import Material.Options as Options
 import GiftCertificates.Messages exposing (..)
 import GiftCertificates.Models exposing (..)
+
+
+type alias Mdl =
+    Material.Model
 
 
 view : Model -> Html Msg
 view model =
     div []
-        [ table model.giftCertificates
+        [ Button.render Mdl
+            [ 3 ]
+            model.mdl
+            [ Options.onClick FetchGiftCertificates ]
+            [ text "Load Gift Certificates" ]
+        , div [ class "text-center" ] [ table model.giftCertificates ]
         ]
 
 
@@ -38,11 +49,29 @@ table giftCertificates =
 giftCertificateRow : GiftCertificate -> Html Msg
 giftCertificateRow giftCertificate =
     Table.tr []
-        [ Table.td [ Table.numeric ] [ text giftCertificate.id ]
-        , Table.td [ Table.numeric ] [ text giftCertificate.amount ]
-        , Table.td [ Table.numeric ] [ text giftCertificate.sale_price ]
+        [ Table.td [ Table.numeric ] [ text (toString giftCertificate.id) ]
+        , Table.td [ Table.numeric ] [ text (toString giftCertificate.amount) ]
+        , Table.td [ Table.numeric ] [ text (toString giftCertificate.sale_price) ]
         , Table.td [] [ text giftCertificate.date_sold ]
-        , Table.td [] [ text giftCertificate.redeemed_date ]
-        , Table.td [ Table.numeric ] [ text giftCertificate.issuer_id ]
-        , Table.td [] [ text giftCertificate.memo ]
+        , Table.td []
+            [ text
+                (case giftCertificate.redeemed_date of
+                    Maybe.Just a ->
+                        a
+
+                    Maybe.Nothing ->
+                        ""
+                )
+            ]
+        , Table.td [ Table.numeric ] [ text (toString giftCertificate.issuer_id) ]
+        , Table.td []
+            [ text
+                (case giftCertificate.memo of
+                    Maybe.Just a ->
+                        a
+
+                    Maybe.Nothing ->
+                        ""
+                )
+            ]
         ]

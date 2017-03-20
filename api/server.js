@@ -10,6 +10,7 @@ app.use(bodyParser.json());
 app.use(cors());
 
 app.use(require('./user-routes'));
+app.use(require('./gift-certificate-routes'));
 
 var port = process.env.PORT || 3001;
 
