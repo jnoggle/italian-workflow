@@ -15,11 +15,11 @@ CREATE TABLE Users (
 );
 
 CREATE TABLE GiftCertificates (
-    id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    gift_certificate_id INT UNSIGNED NOT NULL AUTO_INCREMENT,
     amount DECIMAL(10, 2) NOT NULL,
-    sale_price NOT NULL,
+    sale_price DECIMAL(10, 2) NOT NULL,
     date_sold DATE NOT NULL,
-    redeemed_date DATE,
+    date_redeemed DATE,
     issuer_id INT UNSIGNED NOT NULL,
     memo VARCHAR(140),
     PRIMARY KEY (id),
