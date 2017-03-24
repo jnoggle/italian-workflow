@@ -13,6 +13,7 @@ var conn = mysql.createConnection({
     port: config.sql_port,
     password: config.sql_password,
     database: config.sql_database,
+    dateStrings: config.dateStrings
 });
 
 const saltRounds = 10;
@@ -76,33 +77,13 @@ app.get('/gift-certificates/:id', function (req, res) {
 });
 
 app.get('/gift-certificates', function (req, res) {
-    var sql = 'SELECT * FROM GiftCertificates';
+    var sql = 'SELECT * FROM GiftCertificates ORDER BY date_sold DESC';
     var query = conn.query(sql, function (err, results) {
         if (err) {
             console.log(err);
             return res.status(400).send("Database error");
         }
         
-        // results = [
-        //     {
-        //         "gift_certificate_id": "1",
-        //         "amount": "25.00",
-        //         "sale_price": "25.00",
-        //         "date_sold": "2012-12-12",
-        //         "date_redeemed": "None",
-        //         "issuer_id": "1",
-        //         "memo": "LongCatIsObviouslyLong"
-        //     },
-        //     {
-        //         "gift_certificate_id": "2",
-        //         "amount": "50.00",
-        //         "sale_price": "25.00",
-        //         "date_sold": "2012-12-07",
-        //         "date_redeemed": "None",
-        //         "issuer_id": "1",
-        //         "memo": "LongCatIsSoCrazyLong"
-        //     }
-        // ];
         console.log(results);
         res.status(200).json(results);
     });
