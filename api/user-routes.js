@@ -14,6 +14,7 @@ var conn = mysql.createConnection({
     port: config.sql_port,
     password: config.sql_password,
     database: config.sql_database,
+    dateStrings: config.dateStrings
 });
 
 const saltRounds = 10;
@@ -130,4 +131,4 @@ app.get('/users/:id', function (req, res) {
     }
 
     return res.status(200).json(user);
-})
+});
