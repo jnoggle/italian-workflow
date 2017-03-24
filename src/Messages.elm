@@ -12,7 +12,8 @@ type Msg
     | Login
     | Logout
     | Authorization (Result Http.Error String)
-    | GiftCertificates
+    | ListGiftCertificates
+    | AddGiftCertificates
     | GiftCertificateMsg GiftCertificates.Messages.Msg
     | OnLocationChange Location
     | Mdl (Material.Msg Msg)

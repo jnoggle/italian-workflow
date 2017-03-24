@@ -17,13 +17,13 @@ matchers =
         [ map LoginRoute top
         , map LoginRoute (s "login")
         , map GiftCertificatesRoute (s "giftcertificates")
-        , map AddGiftCertificateRoute (s "giftcertificates/add")
+        , map AddGiftCertificateRoute (s "addgiftcertificates")
         ]
 
 
 parseLocation : Location -> Route
 parseLocation location =
-    case (parseHash matchers location) of
+    case Debug.log "Location Message" (parseHash matchers location) of
         Just route ->
             route
 

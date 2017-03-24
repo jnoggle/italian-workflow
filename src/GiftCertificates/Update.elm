@@ -1,10 +1,10 @@
 module GiftCertificates.Update exposing (..)
 
 import GiftCertificates.Messages exposing (Msg(..))
-import GiftCertificates.Models exposing (Model, GiftCertificate, NewGiftCertificate)
+import GiftCertificates.Models exposing (Model, GiftCertificate)
 import Navigation
 import Material
-import GiftCertificates.Commands exposing (fetchAll)
+import GiftCertificates.Commands exposing (fetchAll, postGiftCertificateCmd)
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -23,7 +23,16 @@ update message model =
             ( model, Navigation.newUrl "#giftcertificates" )
 
         AddGiftCertificate ->
-            ( model, Navigation.newUrl "#giftcertificates/add" )
+            ( model, Navigation.newUrl "#addgiftcertificates" )
+
+        SetAmount amount ->
+            ( { model | newAmount = amount, newSale_price = amount }, Cmd.none )
+
+        SetMemo memo ->
+            ( { model | newMemo = memo }, Cmd.none )
+
+        PostGiftCertificate ->
+            ( model, postGiftCertificateCmd model.newAmount model.newSale_price (Maybe.Just model.newMemo) )
 
         OnGiftCertificatePosted (Ok postedGiftCertificate) ->
             ( { model | postedGiftCertificateId = Maybe.Just postedGiftCertificate.id }, Cmd.none )

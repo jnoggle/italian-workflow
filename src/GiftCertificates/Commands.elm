@@ -17,13 +17,13 @@ giftCertificateUrl =
     apiUrl ++ "gift-certificates"
 
 
-giftCertificateEncoder : GiftCertificate -> Encode.Value
-giftCertificateEncoder giftCertificate =
+giftCertificateEncoder : Float -> Float -> Maybe String -> Encode.Value
+giftCertificateEncoder amount sale_price memo =
     Encode.object
-        [ ( "amount", Encode.float giftCertificate.amount )
-        , ( "sale_price", Encode.float giftCertificate.sale_price )
+        [ ( "amount", Encode.float amount )
+        , ( "sale_price", Encode.float sale_price )
         , ( "memo"
-          , (case giftCertificate.memo of
+          , (case memo of
                 Maybe.Just a ->
                     Encode.string a
 
@@ -34,8 +34,8 @@ giftCertificateEncoder giftCertificate =
         ]
 
 
-postGiftCertificate : GiftCertificate -> String -> Http.Request GiftCertificate
-postGiftCertificate giftCertificate apiUrl =
+postGiftCertificate : Float -> Float -> Maybe String -> String -> Http.Request GiftCertificate
+postGiftCertificate amount sale_price memo apiUrl =
     Http.request
         { method = "POST"
         , expect = Http.expectJson giftCertificateDecoder
@@ -43,7 +43,7 @@ postGiftCertificate giftCertificate apiUrl =
         , withCredentials = False
         , headers = []
         , url = apiUrl
-        , body = giftCertificateEncoder giftCertificate |> Http.jsonBody
+        , body = (giftCertificateEncoder amount sale_price memo) |> Http.jsonBody
         }
 
 
@@ -60,9 +60,9 @@ getGiftCertificates apiUrl =
         }
 
 
-postGiftCertificateCmd : GiftCertificate -> Cmd Msg
-postGiftCertificateCmd giftCertificate =
-    Http.send OnGiftCertificatePosted <| postGiftCertificate giftCertificate giftCertificateUrl
+postGiftCertificateCmd : Float -> Float -> Maybe String -> Cmd Msg
+postGiftCertificateCmd amount sale_price memo =
+    Http.send OnGiftCertificatePosted <| (postGiftCertificate amount sale_price memo) giftCertificateUrl
 
 
 

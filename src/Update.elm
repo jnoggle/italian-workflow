@@ -11,7 +11,7 @@ import GiftCertificates.Update
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
-    case msg of
+    case Debug.log "The Message" msg of
         LoginFormInput field val ->
             case field of
                 Username ->
@@ -46,8 +46,11 @@ update msg model =
             in
                 ( { model | giftCertificates = updatedGiftCertificates }, Cmd.map GiftCertificateMsg cmd )
 
-        GiftCertificates ->
+        ListGiftCertificates ->
             ( model, Navigation.newUrl "#giftcertificates" )
+
+        AddGiftCertificates ->
+            ( model, Navigation.newUrl "#addgiftcertificates" )
 
         Mdl msg_ ->
             Material.update Mdl msg_ model

@@ -172,7 +172,8 @@ type alias MenuItem =
 
 menuItems : List MenuItem
 menuItems =
-    [ { text = "Gift Certificates", iconName = "view_sequential", route = GiftCertificates }
+    [ { text = "List Gift Certificates", iconName = "view_sequential", route = ListGiftCertificates }
+    , { text = "Add Gift Certificates", iconName = "view_sequential", route = AddGiftCertificates }
     ]
 
 

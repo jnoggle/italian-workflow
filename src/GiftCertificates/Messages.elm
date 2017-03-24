@@ -10,5 +10,8 @@ type Msg
     | OnFetchAll (Result Http.Error (List GiftCertificate))
     | ListGiftCertificates
     | AddGiftCertificate
+    | SetAmount Float
+    | SetMemo String
+    | PostGiftCertificate
     | OnGiftCertificatePosted (Result Http.Error GiftCertificate)
     | Mdl (Material.Msg Msg)

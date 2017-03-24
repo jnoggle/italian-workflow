@@ -19,16 +19,11 @@ type alias GiftCertificate =
     }
 
 
-type alias NewGiftCertificate =
-    { amount : String
-    , sale_price : String
-    , memo : String
-    }
-
-
 type alias Model =
     { giftCertificates : List GiftCertificate
-    , newGiftCertificate : NewGiftCertificate
+    , newAmount : Float
+    , newSale_price : Float
+    , newMemo : String
     , postedGiftCertificateId : Maybe Int
     , errorMsg : String
     , mdl : Material.Model
@@ -37,4 +32,4 @@ type alias Model =
 
 initialModel : Model
 initialModel =
-    Model [] (NewGiftCertificate "" "" "") Maybe.Nothing "" Material.model
+    Model [] 0.0 0.0 "" Maybe.Nothing "" Material.model

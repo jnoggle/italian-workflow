@@ -24,6 +24,7 @@ app.post('/gift-certificates', function (req, res) {
 
     var determine_id_from_token = 1;
     var issuer_id = determine_id_from_token;
+    var date_sold = new Date();
 
     if (!amount ||
         !sale_price) {
@@ -31,11 +32,13 @@ app.post('/gift-certificates', function (req, res) {
     }
 
     var sql = 'INSERT INTO GiftCertificates (amount, sale_price, date_sold, issuer_id, memo) VALUES ('
-        + conn.escape(amount) + ' '
-        + conn.escape(sale_price) + ' '
-        + conn.escape(date_sold) + ' '
-        + conn.escape(issuer_id) + ' '
-        + conn.escape(memo);
+        + conn.escape(amount) + ', '
+        + conn.escape(sale_price) + ', '
+        + conn.escape(date_sold) + ', '
+        + conn.escape(issuer_id) + ', '
+        + conn.escape(memo) + ')';
+
+    console.log(sql);
 
     var query = conn.query(sql, function (err, results) {
         if (err) {
@@ -44,10 +47,10 @@ app.post('/gift-certificates', function (req, res) {
         }
 
         gc = {
-            id: result.insertId,
+            id: results.insertId,
             amount: req.body.amount,
             sale_price: req.body.sale_price,
-            date_sold: req.body.date_sold,
+            date_sold: date_sold,
             issuer_id: issuer_id,
             memo: req.body.memo
         }
