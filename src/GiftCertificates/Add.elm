@@ -30,9 +30,11 @@ view model =
                 [ Textfield.label "Memo"
                 , Textfield.floatingLabel
                 , Textfield.textarea
-                , Textfield.rows 6
                 , Textfield.maxlength 140
+                , Textfield.value model.newMemo
                 , Options.onInput SetMemo
+                , Options.css "float" "left"
+                , Options.css "margin" "0 10px"
                 ]
                 []
             ]
@@ -42,6 +44,7 @@ view model =
                 model.mdl
                 [ Button.fab
                 , Options.onClick PostGiftCertificate
+                , Options.css "margin" "0 10px"
                 ]
                 [ Icon.i "add" ]
             ]
@@ -80,5 +83,7 @@ amountButton model amount id =
           else
             Options.nop
         , Options.onClick (SetAmount amount)
+        , Options.css "float" "left"
+        , Options.css "margin" "25px 10px 25px 10px"
         ]
         [ text ("$" ++ toString amount) ]
