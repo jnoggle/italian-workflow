@@ -46,11 +46,8 @@ update msg model =
             in
                 ( { model | giftCertificates = updatedGiftCertificates }, Cmd.map GiftCertificateMsg cmd )
 
-        ListGiftCertificates ->
+        GiftCertificates ->
             ( model, Navigation.newUrl "#giftcertificates" )
-
-        AddGiftCertificates ->
-            ( model, Navigation.newUrl "#addgiftcertificates" )
 
         Mdl msg_ ->
             Material.update Mdl msg_ model

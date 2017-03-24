@@ -19,11 +19,8 @@ update message model =
         OnFetchAll (Err error) ->
             ( model, Cmd.none )
 
-        ListGiftCertificates ->
+        GiftCertificates ->
             ( model, Navigation.newUrl "#giftcertificates" )
-
-        AddGiftCertificate ->
-            ( model, Navigation.newUrl "#addgiftcertificates" )
 
         SetAmount amount ->
             ( { model | newAmount = amount, newSale_price = amount }, Cmd.none )

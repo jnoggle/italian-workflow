@@ -7,6 +7,8 @@ import Material
 import Material.Table as Table
 import Material.Button as Button
 import Material.Options as Options
+import Material.Textfield as Textfield
+import Material.Icon as Icon
 import GiftCertificates.Messages exposing (..)
 import GiftCertificates.Models exposing (..)
 
@@ -18,12 +20,23 @@ type alias Mdl =
 view : Model -> Html Msg
 view model =
     div []
-        [ Button.render Mdl
+        [ h2 [] [ text "Gift Certificates" ]
+        , addGiftCertificateView model
+        , Button.render Mdl
             [ 3 ]
             model.mdl
             [ Options.onClick FetchGiftCertificates ]
             [ text "Load Gift Certificates" ]
         , div [ class "text-center" ] [ table model.giftCertificates ]
+        ]
+
+
+addGiftCertificateView : Model -> Html Msg
+addGiftCertificateView model =
+    div []
+        [ drawAddButton model
+        , drawButtons model
+        , drawMemoField model
         ]
 
 
@@ -75,3 +88,68 @@ giftCertificateRow giftCertificate =
                 )
             ]
         ]
+
+
+drawButtons : Model -> Html Msg
+drawButtons model =
+    div []
+        [ amountButton model 5 3
+        , amountButton model 10 4
+        , amountButton model 20 5
+        , amountButton model 25 6
+        , amountButton model 50 7
+        ]
+
+
+drawMemoField : Model -> Html Msg
+drawMemoField model =
+    div []
+        [ Textfield.render Mdl
+            [ 8 ]
+            model.mdl
+            [ Textfield.label "Memo"
+            , Textfield.floatingLabel
+            , Textfield.textarea
+            , Textfield.maxlength 140
+            , Textfield.value model.newMemo
+              -- The value property is only necessary due to issue 278 in elm-mdl https://github.com/debois/elm-mdl/issues/278
+              -- It should be removed once the issue is closed to fix the slow, jumpy behavior of the textfield
+              -- when text is being entered in too quickly. This is a result of updating the model's newMemo and
+              -- feeding it back through to the textfield.
+            , Options.onInput SetMemo
+            , Options.css "margin" "0 10px"
+            ]
+            []
+        ]
+
+
+drawAddButton : Model -> Html Msg
+drawAddButton model =
+    div []
+        [ Button.render Mdl
+            [ 9 ]
+            model.mdl
+            [ Button.fab
+            , Options.onClick PostGiftCertificate
+            , Options.css "float" "left"
+            , Options.css "margin" "15px 10px"
+            ]
+            [ Icon.i "add" ]
+        ]
+
+
+amountButton : Model -> Float -> Int -> Html Msg
+amountButton model amount id =
+    Button.render Mdl
+        [ id ]
+        model.mdl
+        [ Button.raised
+        , if model.newAmount == amount then
+            Button.colored
+          else
+            Options.nop
+        , Options.onClick (SetAmount amount)
+        , Options.css "float" "left"
+        , Options.css "margin" "25px 10px 25px 10px"
+        ]
+        [ text ("$" ++ toString amount) ]

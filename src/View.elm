@@ -17,7 +17,6 @@ import Messages exposing (Msg(..))
 import Models exposing (Model, Field(..))
 import Routing exposing (Route(..))
 import GiftCertificates.List
-import GiftCertificates.Add
 
 
 type alias Mdl =
@@ -53,9 +52,6 @@ viewBody model =
 
         GiftCertificatesRoute ->
             Html.map GiftCertificateMsg (GiftCertificates.List.view model.giftCertificates)
-
-        AddGiftCertificateRoute ->
-            Html.map GiftCertificateMsg (GiftCertificates.Add.view model.giftCertificates)
 
         NotFoundRoute ->
             notFoundView
@@ -172,8 +168,7 @@ type alias MenuItem =
 
 menuItems : List MenuItem
 menuItems =
-    [ { text = "List Gift Certificates", iconName = "view_sequential", route = ListGiftCertificates }
-    , { text = "Add Gift Certificates", iconName = "view_sequential", route = AddGiftCertificates }
+    [ { text = "List Gift Certificates", iconName = "view_sequential", route = GiftCertificates }
     ]
 
 
