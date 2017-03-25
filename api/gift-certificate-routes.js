@@ -25,7 +25,7 @@ app.post('/gift-certificates', function (req, res) {
 
     var determine_id_from_token = 1;
     var issuer_id = determine_id_from_token;
-    var date_sold = new Date();
+    var date_sold = new Date().toISOString().substring(0,10);
 
     if (!amount ||
         !sale_price) {
@@ -48,7 +48,7 @@ app.post('/gift-certificates', function (req, res) {
         }
 
         gc = {
-            id: results.insertId,
+            gift_certificate_id: results.insertId,
             amount: req.body.amount,
             sale_price: req.body.sale_price,
             date_sold: date_sold,
@@ -77,7 +77,7 @@ app.get('/gift-certificates/:id', function (req, res) {
 });
 
 app.get('/gift-certificates', function (req, res) {
-    var sql = 'SELECT * FROM GiftCertificates ORDER BY date_sold DESC';
+    var sql = 'SELECT * FROM GiftCertificates ORDER BY date_sold DESC, gift_certificate_id DESC';
     var query = conn.query(sql, function (err, results) {
         if (err) {
             console.log(err);

@@ -19,9 +19,6 @@ update message model =
         OnFetchAll (Err error) ->
             ( model, Cmd.none )
 
-        GiftCertificates ->
-            ( model, Navigation.newUrl "#giftcertificates" )
-
         SetAmount amount ->
             ( { model | newAmount = amount, newSale_price = amount }, Cmd.none )
 
@@ -32,7 +29,7 @@ update message model =
             ( model, postGiftCertificateCmd model.newAmount model.newSale_price (Maybe.Just model.newMemo) )
 
         OnGiftCertificatePosted (Ok postedGiftCertificate) ->
-            ( { model | postedGiftCertificateId = Maybe.Just postedGiftCertificate.id }, Cmd.none )
+            ( { model | giftCertificates = postedGiftCertificate :: model.giftCertificates }, Cmd.none )
 
         OnGiftCertificatePosted (Err error) ->
             ( { model | errorMsg = (toString error) }, Cmd.none )

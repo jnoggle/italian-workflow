@@ -20,13 +20,13 @@ type alias Mdl =
 view : Model -> Html Msg
 view model =
     div []
-        [ h2 [] [ text "Gift Certificates" ]
+        [ h3 [] [ text "New Gift Certificate" ]
         , addGiftCertificateView model
         , Button.render Mdl
             [ 3 ]
             model.mdl
             [ Options.onClick FetchGiftCertificates ]
-            [ text "Load Gift Certificates" ]
+            [ text "Gift Certificates" ]
         , div [ class "text-center" ] [ table model.giftCertificates ]
         ]
 
@@ -69,8 +69,8 @@ giftCertificateRow giftCertificate =
         , Table.td []
             [ text
                 (case giftCertificate.redeemed_date of
-                    Maybe.Just a ->
-                        a
+                    Maybe.Just string ->
+                        string
 
                     Maybe.Nothing ->
                         ""
@@ -80,8 +80,8 @@ giftCertificateRow giftCertificate =
         , Table.td []
             [ text
                 (case giftCertificate.memo of
-                    Maybe.Just a ->
-                        a
+                    Maybe.Just string ->
+                        string
 
                     Maybe.Nothing ->
                         ""

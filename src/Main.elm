@@ -17,7 +17,7 @@ init location =
         currentRoute =
             Routing.parseLocation location
     in
-        ( initialModel currentRoute, Cmd.none )
+        ( initialModel currentRoute, Cmd.map GiftCertificateMsg fetchAll )
 
 
 

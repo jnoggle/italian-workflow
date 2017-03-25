@@ -3,11 +3,6 @@ module GiftCertificates.Models exposing (..)
 import Material
 
 
--- type Maybe a
---     = Just a
---     | Nothing
-
-
 type alias GiftCertificate =
     { id : Int
     , amount : Float
@@ -24,7 +19,6 @@ type alias Model =
     , newAmount : Float
     , newSale_price : Float
     , newMemo : String
-    , postedGiftCertificateId : Maybe Int
     , errorMsg : String
     , mdl : Material.Model
     }
@@ -32,4 +26,4 @@ type alias Model =
 
 initialModel : Model
 initialModel =
-    Model [] 0.0 0.0 "" Maybe.Nothing "" Material.model
+    Model [] 0.0 0.0 "" "" Material.model

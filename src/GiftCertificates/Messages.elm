@@ -8,7 +8,6 @@ import Material
 type Msg
     = FetchGiftCertificates
     | OnFetchAll (Result Http.Error (List GiftCertificate))
-    | GiftCertificates
     | SetAmount Float
     | SetMemo String
     | PostGiftCertificate
