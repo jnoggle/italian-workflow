@@ -129,10 +129,14 @@ drawAddButton model =
         [ Button.render Mdl
             [ 9 ]
             model.mdl
-            [ Button.fab
+            [ Button.raised
+            , if model.newAmount == 0.0 then
+                Button.disabled
+              else
+                Button.colored
             , Options.onClick PostGiftCertificate
             , Options.css "float" "left"
-            , Options.css "margin" "15px 10px"
+            , Options.css "margin" "25px 10px"
             ]
             [ Icon.i "add" ]
         ]
@@ -150,6 +154,6 @@ amountButton model amount id =
             Options.nop
         , Options.onClick (SetAmount amount)
         , Options.css "float" "left"
-        , Options.css "margin" "25px 10px 25px 10px"
+        , Options.css "margin" "25px 10px"
         ]
         [ text ("$" ++ toString amount) ]

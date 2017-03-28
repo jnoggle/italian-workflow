@@ -26,7 +26,7 @@ update message model =
             ( { model | newMemo = memo }, Cmd.none )
 
         PostGiftCertificate ->
-            ( model, postGiftCertificateCmd model.newAmount model.newSale_price (Maybe.Just model.newMemo) )
+            ( { model | newMemo = "", newAmount = 0.0 }, postGiftCertificateCmd model.newAmount model.newSale_price (Maybe.Just model.newMemo) )
 
         OnGiftCertificatePosted (Ok postedGiftCertificate) ->
             ( { model | giftCertificates = postedGiftCertificate :: model.giftCertificates }, Cmd.none )
