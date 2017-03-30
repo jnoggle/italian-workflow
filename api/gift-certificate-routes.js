@@ -25,7 +25,7 @@ app.post('/gift-certificates', function (req, res) {
 
     var determine_id_from_token = 1;
     var issuer_id = determine_id_from_token;
-    var date_sold = getDate();
+    var date_sold = getToday();
 
     if (!amount ||
         !sale_price) {
@@ -59,7 +59,7 @@ app.post('/gift-certificates', function (req, res) {
     });
 });
 
-app.get('/gift-certificates/:id', function (req, res) {
+app.get('/gift-certificates/byid', function (req, res) {
     var id = req.body.id;
 
     if (!id) {
@@ -76,14 +76,14 @@ app.get('/gift-certificates/:id', function (req, res) {
     });
 });
 
-app.get('/gift-certificates/:date', function (req, res) {
+app.get('/gift-certificates/bydate', function (req, res) {
     var date = req.body.date;
 
     if (!date) {
         return res.status(400).send("Invalid request, expected date");
     }
 
-    var sql = 'SELECT * FROM GiftCertificates WHERE date_sold = ' + conn.escape(date); _
+    var sql = 'SELECT * FROM GiftCertificates WHERE date_sold = ' + conn.escape(date);
     var query = conn.query(sql, function (err, results) {
         if (err) {
             console.log(err);
@@ -94,7 +94,22 @@ app.get('/gift-certificates/:date', function (req, res) {
     });
 });
 
-app.get('/gift-certificates/:dates', function (req, res) {
+app.get('/gift-certificates/today', function (req, res) {
+    var today = getToday();
+    console.log("I'm being hit");
+
+    var sql = 'SELECT * FROM GiftCertificates WHERE date_sold = ' + conn.escape(today);
+    var query = conn.query(sql, function (err, results) {
+        if (err) {
+            console.log(err);
+            return res.status(400).send("Database error");
+        }
+
+        res.status(200).json(results);
+    });
+});
+
+app.get('/gift-certificates/bydates', function (req, res) {
     var start_date = req.body.start_date;
     var end_date = req.body.end_date;
 
@@ -125,7 +140,7 @@ app.get('/gift-certificates', function (req, res) {
     });
 });
 
-function getDate() {
+function getToday() {
     var date = new Date();
     var year = date.getFullYear();
     var month = pad(date.getMonth() + 1);

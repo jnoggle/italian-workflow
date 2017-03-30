@@ -1,4 +1,4 @@
-module GiftCertificates.List exposing (..)
+module GiftCertificates.View exposing (..)
 
 import Html exposing (..)
 import Html.Attributes exposing (class)
@@ -9,6 +9,7 @@ import Material.Button as Button
 import Material.Options as Options
 import Material.Textfield as Textfield
 import Material.Icon as Icon
+import Material.Tabs as Tabs
 import GiftCertificates.Messages exposing (..)
 import GiftCertificates.Models exposing (..)
 

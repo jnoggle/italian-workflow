@@ -18,7 +18,7 @@ import Material.Typography as Typography
 import Messages exposing (Msg(..))
 import Models exposing (Model, Field(..))
 import Routing exposing (Route(..))
-import GiftCertificates.List
+import GiftCertificates.View
 
 
 type alias Mdl =
@@ -53,7 +53,7 @@ viewBody model =
             loginView model
 
         GiftCertificatesRoute ->
-            Html.map GiftCertificateMsg (GiftCertificates.List.view model.giftCertificates)
+            Html.map GiftCertificateMsg (GiftCertificates.View.view model.giftCertificates)
 
         NotFoundRoute ->
             notFoundView

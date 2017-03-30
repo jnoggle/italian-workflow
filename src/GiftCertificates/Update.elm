@@ -19,6 +19,12 @@ update message model =
         OnFetchAll (Err error) ->
             ( model, Cmd.none )
 
+        OnFetchTodays (Ok newGiftCertificates) ->
+            ( { model | giftCertificates = newGiftCertificates }, Cmd.none )
+
+        OnFetchTodays (Err error) ->
+            ( model, Cmd.none )
+
         SetAmount amount ->
             ( { model | newAmount = amount, newSale_price = amount }, Cmd.none )
 

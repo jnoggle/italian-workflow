@@ -17,6 +17,11 @@ giftCertificateUrl =
     apiUrl ++ "gift-certificates"
 
 
+giftCertificateTodayUrl : String
+giftCertificateTodayUrl =
+    giftCertificateUrl ++ "/today"
+
+
 giftCertificateEncoder : Float -> Float -> Maybe String -> Encode.Value
 giftCertificateEncoder amount sale_price memo =
     Encode.object
@@ -75,6 +80,11 @@ postGiftCertificateCmd amount sale_price memo =
 fetchAll : Cmd Msg
 fetchAll =
     Http.send OnFetchAll <| getGiftCertificates giftCertificateUrl
+
+
+fetchTodays : Cmd Msg
+fetchTodays =
+    Http.send OnFetchTodays <| getGiftCertificates giftCertificateTodayUrl
 
 
 giftCertificateDecoder : Decoder GiftCertificate
