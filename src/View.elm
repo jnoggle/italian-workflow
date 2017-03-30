@@ -13,6 +13,8 @@ import Material.Menu as Menu
 import Material.Dialog as Dialog
 import Material.Button as Button
 import Material.Options as Options exposing (css, cs, when)
+import Material.Textfield as Textfield
+import Material.Typography as Typography
 import Messages exposing (Msg(..))
 import Models exposing (Model, Field(..))
 import Routing exposing (Route(..))
@@ -102,24 +104,38 @@ loginView model =
                             ]
                         ]
                 else
-                    div [ id "form" ]
-                        [ h2 [ class "text-center" ] [ text "Login" ]
-                        , div [ class showError ]
+                    Options.div
+                        [ Typography.center
+                        , Options.css "margin" "100px 0 0 0 "
+                        ]
+                        [ div [ class showError ]
                             [ div [ class "alert alert-danger" ] [ text model.errorMsg ]
                             ]
-                        , div [ class "form-group row" ]
-                            [ div [ class "col-md-offset-2 col-md-8" ]
-                                [ label [ for "username" ] [ text "Username:" ]
-                                , input [ id "username", type_ "text", class "form-control", Html.Attributes.value model.username, onInput (LoginFormInput Username) ] []
+                        , div []
+                            [ Textfield.render Mdl
+                                [ 5 ]
+                                model.mdl
+                                [ Textfield.label "Username"
+                                , Textfield.floatingLabel
+                                , Textfield.text_
+                                , Textfield.value model.username
+                                , Options.onInput (LoginFormInput Username)
                                 ]
+                                []
                             ]
-                        , div [ class "form-group row" ]
-                            [ div [ class "col-md-offset-2 col-md-8" ]
-                                [ label [ for "password" ] [ text "Password:" ]
-                                , input [ id "password", type_ "password", class "form-control", Html.Attributes.value model.password, onInput (LoginFormInput Password) ] []
+                        , div []
+                            [ Textfield.render Mdl
+                                [ 6 ]
+                                model.mdl
+                                [ Textfield.label "Password"
+                                , Textfield.floatingLabel
+                                , Textfield.password
+                                , Textfield.value model.password
+                                , Options.onInput (LoginFormInput Password)
                                 ]
+                                []
                             ]
-                        , div [ class "text-center" ]
+                        , div []
                             [ Button.render Mdl
                                 [ 1 ]
                                 model.mdl
@@ -130,9 +146,8 @@ loginView model =
                             ]
                         ]
     in
-        div [ class "container" ]
-            [ h2 [ class "text-center" ] [ text "Spaghetti Workflow" ]
-            , div [ class "jumbotron text-left" ]
+        Options.div []
+            [ Options.div [ Typography.center ]
                 [ authBoxView
                 ]
             ]
@@ -168,7 +183,7 @@ type alias MenuItem =
 
 menuItems : List MenuItem
 menuItems =
-    [ { text = "List Gift Certificates", iconName = "view_sequential", route = GiftCertificates }
+    [ { text = "Gift Certificates", iconName = "view_sequential", route = GiftCertificates }
     ]
 
 
