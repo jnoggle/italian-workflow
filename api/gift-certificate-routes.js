@@ -59,6 +59,14 @@ app.post('/gift-certificates', function (req, res) {
     });
 });
 
+app.get('/gift-certificates/redeem', function (req, res) {
+    var id = req.body.id;
+
+    if (!id) {
+        return res.status(400).send("Invalid request, expected id");
+    }
+})
+
 app.get('/gift-certificates/byid', function (req, res) {
     var id = req.body.id;
 

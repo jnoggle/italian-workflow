@@ -27,4 +27,4 @@ type alias Model =
 
 initialModel : Model
 initialModel =
-    Model [] 0.0 0.0 "" "" Material.model 1
+    Model [] 0.0 0.0 "" "" Material.model 0

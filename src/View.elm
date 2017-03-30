@@ -191,14 +191,9 @@ viewDrawerMenuItem : Model -> MenuItem -> Html Msg
 viewDrawerMenuItem model menuItem =
     Layout.link
         [ Options.onClick menuItem.route
-        , Options.css "color" "rgba(255, 255, 255, 0.50)"
-        , Options.css "font-weight" "400"
+        , Color.text <| Color.white
         ]
-        [ Icon.view menuItem.iconName
-            [ Color.text <| Color.color Color.BlueGrey Color.S500
-            , Options.css "margin-right" "32px"
-            ]
-        , text menuItem.text
+        [ text menuItem.text
         ]
 
 
@@ -206,7 +201,6 @@ viewDrawer : Model -> Html Msg
 viewDrawer model =
     Layout.navigation
         [ Color.background <| Color.color Color.BlueGrey Color.S800
-        , Color.text <| Color.color Color.BlueGrey Color.S50
         , Options.css "flex-grow" "1"
         ]
     <|

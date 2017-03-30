@@ -65,15 +65,10 @@ view model =
 
 newTab : Model -> Html Msg
 newTab model =
-    div
+    Options.div
         []
         [ addGiftCertificateView model
-        , Button.render Mdl
-            [ 3 ]
-            model.mdl
-            [ Options.onClick FetchGiftCertificates ]
-            [ text "Gift Certificates" ]
-        , div [ class "text-center" ] [ table model.giftCertificates ]
+        , table model.giftCertificates
         ]
 
 
@@ -89,7 +84,8 @@ redeemTab model =
 
 addGiftCertificateView : Model -> Html Msg
 addGiftCertificateView model =
-    div []
+    Options.div
+        []
         [ drawAddButton model
         , drawButtons model
         , drawMemoField model
