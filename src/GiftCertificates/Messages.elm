@@ -13,4 +13,5 @@ type Msg
     | SetMemo String
     | PostGiftCertificate
     | OnGiftCertificatePosted (Result Http.Error GiftCertificate)
+    | SelectTab Int
     | Mdl (Material.Msg Msg)

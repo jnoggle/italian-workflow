@@ -40,5 +40,8 @@ update message model =
         OnGiftCertificatePosted (Err error) ->
             ( { model | errorMsg = (toString error) }, Cmd.none )
 
+        SelectTab index ->
+            ( { model | tab = index }, Cmd.none )
+
         Mdl msg_ ->
             Material.update Mdl msg_ model

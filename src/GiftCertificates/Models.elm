@@ -21,9 +21,10 @@ type alias Model =
     , newMemo : String
     , errorMsg : String
     , mdl : Material.Model
+    , tab : Int
     }
 
 
 initialModel : Model
 initialModel =
-    Model [] 0.0 0.0 "" "" Material.model
+    Model [] 0.0 0.0 "" "" Material.model 1

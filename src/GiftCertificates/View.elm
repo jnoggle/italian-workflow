@@ -10,6 +10,7 @@ import Material.Options as Options
 import Material.Textfield as Textfield
 import Material.Icon as Icon
 import Material.Tabs as Tabs
+import Material.Layout as Layout
 import GiftCertificates.Messages exposing (..)
 import GiftCertificates.Models exposing (..)
 
@@ -20,9 +21,53 @@ type alias Mdl =
 
 view : Model -> Html Msg
 view model =
-    div []
-        [ h3 [] [ text "New Gift Certificate" ]
-        , addGiftCertificateView model
+    Tabs.render Mdl
+        [ 8 ]
+        model.mdl
+        [ Tabs.ripple
+        , Tabs.onSelectTab SelectTab
+        , Tabs.activeTab model.tab
+        ]
+        [ Tabs.label
+            [ Options.center ]
+            [ Options.span [ Options.css "width" "4px" ] []
+            , text "New"
+            ]
+        , Tabs.label
+            [ Options.center ]
+            [ Options.span [ Options.css "width" "4px" ] []
+            , text "View"
+            ]
+        , Tabs.label
+            [ Options.center ]
+            [ Options.span [ Options.css "width" "4px" ] []
+            , text "Redeem"
+            ]
+        ]
+        [ Options.div
+            [ Options.center
+            ]
+            [ case model.tab of
+                0 ->
+                    newTab model
+
+                1 ->
+                    viewTab model
+
+                2 ->
+                    redeemTab model
+
+                _ ->
+                    newTab model
+            ]
+        ]
+
+
+newTab : Model -> Html Msg
+newTab model =
+    div
+        []
+        [ addGiftCertificateView model
         , Button.render Mdl
             [ 3 ]
             model.mdl
@@ -30,6 +75,16 @@ view model =
             [ text "Gift Certificates" ]
         , div [ class "text-center" ] [ table model.giftCertificates ]
         ]
+
+
+viewTab : Model -> Html Msg
+viewTab model =
+    text "Not implemented"
+
+
+redeemTab : Model -> Html Msg
+redeemTab model =
+    text "Not implemented"
 
 
 addGiftCertificateView : Model -> Html Msg
