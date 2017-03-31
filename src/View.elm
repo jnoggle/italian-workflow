@@ -204,7 +204,7 @@ viewDrawer model =
         , Options.css "flex-grow" "1"
         ]
     <|
-        (List.map (viewDrawerMenuItem model) menuItems)
+        (List.map (viewDrawerMenuItem model) <| List.filter (\_ -> model.token /= "") menuItems)
 
 
 drawerHeader : Model -> Html Msg
