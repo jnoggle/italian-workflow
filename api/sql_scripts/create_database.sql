@@ -22,6 +22,6 @@ CREATE TABLE GiftCertificates (
     date_redeemed DATE,
     issuer_id INT UNSIGNED NOT NULL,
     memo VARCHAR(140),
-    PRIMARY KEY (id),
+    PRIMARY KEY (gift_certificate_id),
     FOREIGN KEY (issuer_id) REFERENCES Users (user_id) ON DELETE NO ACTION ON UPDATE NO ACTION
 );
