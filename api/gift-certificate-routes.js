@@ -106,7 +106,7 @@ app.get('/gift-certificates/today', function (req, res) {
     var today = getToday();
     console.log("I'm being hit");
 
-    var sql = 'SELECT * FROM GiftCertificates WHERE date_sold = ' + conn.escape(today);
+    var sql = 'SELECT * FROM GiftCertificates WHERE date_sold = ' + conn.escape(today) + ' ORDER BY gift_certificate_id DESC';
     var query = conn.query(sql, function (err, results) {
         if (err) {
             console.log(err);
