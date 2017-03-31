@@ -36,7 +36,7 @@ view model =
         , Tabs.label
             [ Options.center ]
             [ Options.span [ Options.css "width" "4px" ] []
-            , text "View"
+            , text "Reports"
             ]
         , Tabs.label
             [ Options.center ]
