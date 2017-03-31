@@ -19,6 +19,8 @@ type alias Model =
     , newAmount : Float
     , newSale_price : Float
     , newMemo : String
+    , redeemId : String
+    , redemptionStatus : String
     , errorMsg : String
     , mdl : Material.Model
     , tab : Int
@@ -27,4 +29,4 @@ type alias Model =
 
 initialModel : Model
 initialModel =
-    Model [] 0.0 0.0 "" "" Material.model 0
+    Model [] 0.0 0.0 "" "" "" "" Material.model 0

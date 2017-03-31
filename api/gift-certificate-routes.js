@@ -59,13 +59,40 @@ app.post('/gift-certificates', function (req, res) {
     });
 });
 
-app.get('/gift-certificates/redeem', function (req, res) {
+app.put('/gift-certificates/redeem', function (req, res) {
     var id = req.body.id;
 
     if (!id) {
         return res.status(400).send("Invalid request, expected id");
     }
-})
+
+    var sql = 'SELECT * FROM GiftCertificates WHERE gift_certificate_id = ' + conn.escape(id);
+    var query = conn.query(sql, function (err, results) {
+        if (err) {
+            console.log(err);
+            return res.status(400).send("Database error");
+        }
+        if (results.length != 1) {
+            return res.status(400).send("Can't find id");
+        }
+
+        var date_redeemed = getToday();
+
+        var sql = 'UPDATE GiftCertificates SET date_redeemed = '
+            + conn.escape(date_redeemed)
+            + ' WHERE gift_certificate_id = '
+            + conn.escape(id);
+
+        var query = conn.query(sql, function (err, results) {
+            if (err) {
+                console.log(err);
+                return res.status(400).send("Database error");
+            }
+
+            return res.status(200).send("Success");
+        });
+    });
+});
 
 app.get('/gift-certificates/byid', function (req, res) {
     var id = req.body.id;

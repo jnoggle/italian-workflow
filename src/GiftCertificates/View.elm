@@ -22,7 +22,7 @@ type alias Mdl =
 view : Model -> Html Msg
 view model =
     Tabs.render Mdl
-        [ 8 ]
+        [ 10 ]
         model.mdl
         [ Tabs.ripple
         , Tabs.onSelectTab SelectTab
@@ -52,7 +52,7 @@ view model =
                     newTab model
 
                 1 ->
-                    viewTab model
+                    reportsTab model
 
                 2 ->
                     redeemTab model
@@ -72,14 +72,38 @@ newTab model =
         ]
 
 
-viewTab : Model -> Html Msg
-viewTab model =
+reportsTab : Model -> Html Msg
+reportsTab model =
     text "Not implemented"
 
 
 redeemTab : Model -> Html Msg
 redeemTab model =
-    text "Not implemented"
+    Options.div
+        []
+        [ Textfield.render Mdl
+            [ 11 ]
+            model.mdl
+            [ Textfield.label "Gift Certificate Id"
+            , Textfield.text_
+            , Textfield.value model.redeemId
+            , Options.onInput SetRedeemId
+            , Options.css "margin" "50px 25px"
+            ]
+            []
+        , Button.render Mdl
+            [ 12 ]
+            model.mdl
+            [ Button.raised
+            , if model.redeemId == "" then
+                Button.disabled
+              else
+                Button.colored
+            , Options.onClick RedeemGiftCertificate
+            , Options.css "margin" "50px 25px"
+            ]
+            [ Icon.i "add" ]
+        ]
 
 
 addGiftCertificateView : Model -> Html Msg

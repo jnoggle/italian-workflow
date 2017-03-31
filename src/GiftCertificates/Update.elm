@@ -4,7 +4,7 @@ import GiftCertificates.Messages exposing (Msg(..))
 import GiftCertificates.Models exposing (Model, GiftCertificate)
 import Navigation
 import Material
-import GiftCertificates.Commands exposing (fetchAll, postGiftCertificateCmd)
+import GiftCertificates.Commands exposing (fetchAll, postGiftCertificateCmd, redeemGiftCertificateCmd)
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -25,14 +25,26 @@ update message model =
         OnFetchTodays (Err error) ->
             ( model, Cmd.none )
 
+        OnGiftCertificateRedeemed (Ok msg) ->
+            ( { model | redemptionStatus = msg, redeemId = "" }, Cmd.none )
+
+        OnGiftCertificateRedeemed (Err error) ->
+            ( { model | redemptionStatus = (toString error), redeemId = "" }, Cmd.none )
+
         SetAmount amount ->
             ( { model | newAmount = amount, newSale_price = amount }, Cmd.none )
 
         SetMemo memo ->
             ( { model | newMemo = memo }, Cmd.none )
 
+        SetRedeemId id ->
+            ( { model | redeemId = id }, Cmd.none )
+
         PostGiftCertificate ->
             ( { model | newMemo = "", newAmount = 0.0 }, postGiftCertificateCmd model.newAmount model.newSale_price (Maybe.Just model.newMemo) )
+
+        RedeemGiftCertificate ->
+            ( model, redeemGiftCertificateCmd model.redeemId )
 
         OnGiftCertificatePosted (Ok postedGiftCertificate) ->
             ( { model | giftCertificates = postedGiftCertificate :: model.giftCertificates }, Cmd.none )

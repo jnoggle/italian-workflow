@@ -17,9 +17,14 @@ giftCertificateUrl =
     apiUrl ++ "gift-certificates"
 
 
-giftCertificateTodayUrl : String
-giftCertificateTodayUrl =
+todayUrl : String
+todayUrl =
     giftCertificateUrl ++ "/today"
+
+
+redeemUrl : String
+redeemUrl =
+    giftCertificateUrl ++ "/redeem"
 
 
 giftCertificateEncoder : Float -> Float -> Maybe String -> Encode.Value
@@ -65,16 +70,27 @@ getGiftCertificates apiUrl =
         }
 
 
+redeemGiftCertificate : String -> String -> Http.Request String
+redeemGiftCertificate id apiUrl =
+    Http.request
+        { method = "PUT"
+        , expect = Http.expectString
+        , timeout = Nothing
+        , withCredentials = False
+        , headers = []
+        , url = apiUrl
+        , body = (Encode.object [ ( "id", Encode.string id ) ]) |> Http.jsonBody
+        }
+
+
+redeemGiftCertificateCmd : String -> Cmd Msg
+redeemGiftCertificateCmd id =
+    Http.send OnGiftCertificateRedeemed <| (redeemGiftCertificate id) redeemUrl
+
+
 postGiftCertificateCmd : Float -> Float -> Maybe String -> Cmd Msg
 postGiftCertificateCmd amount sale_price memo =
     Http.send OnGiftCertificatePosted <| (postGiftCertificate amount sale_price memo) giftCertificateUrl
-
-
-
--- fetchAll : Cmd Msg
--- fetchAll =
---     Http.get giftCertificateUrl (Decode.list giftCertificateDecoder)
---         |> Http.send OnFetchAll
 
 
 fetchAll : Cmd Msg
@@ -84,7 +100,7 @@ fetchAll =
 
 fetchTodays : Cmd Msg
 fetchTodays =
-    Http.send OnFetchTodays <| getGiftCertificates giftCertificateTodayUrl
+    Http.send OnFetchTodays <| getGiftCertificates todayUrl
 
 
 giftCertificateDecoder : Decoder GiftCertificate
