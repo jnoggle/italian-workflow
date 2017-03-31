@@ -220,25 +220,28 @@ drawerHeader model =
         , Color.background <| Color.color Color.BlueGrey Color.S900
         , Color.text <| Color.color Color.BlueGrey Color.S50
         ]
-        [ Options.styled Html.div
-            [ css "display" "flex"
-            , css "flex-direction" "row"
-            , css "align-items" "center"
-            , css "width" "100%"
-            , css "position" "relative"
-            ]
-            [ Html.span [] [ text model.username ]
-            , Layout.spacer
-            , Menu.render Mdl
-                [ 1, 2, 3, 4 ]
-                model.mdl
-                [ Menu.ripple
-                , Menu.bottomRight
-                , Menu.icon "arrow_drop_down"
+        [ if model.token /= "" then
+            Options.styled Html.div
+                [ css "display" "flex"
+                , css "flex-direction" "row"
+                , css "align-items" "center"
+                , css "width" "100%"
+                , css "position" "relative"
                 ]
-                [ Menu.item
-                    [ Menu.onSelect Logout ]
-                    [ text "Logout" ]
+                [ Html.span [] [ text model.username ]
+                , Layout.spacer
+                , Menu.render Mdl
+                    [ 1, 2, 3, 4 ]
+                    model.mdl
+                    [ Menu.ripple
+                    , Menu.bottomRight
+                    , Menu.icon "arrow_drop_down"
+                    ]
+                    [ Menu.item
+                        [ Menu.onSelect Logout ]
+                        [ text "Logout" ]
+                    ]
                 ]
-            ]
+          else
+            div [] []
         ]
