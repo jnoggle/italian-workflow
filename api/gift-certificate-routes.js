@@ -39,8 +39,6 @@ app.post('/gift-certificates', function (req, res) {
         + conn.escape(issuer_id) + ', '
         + conn.escape(memo) + ')';
 
-    console.log(sql);
-
     var query = conn.query(sql, function (err, results) {
         if (err) {
             console.log(err);
@@ -131,7 +129,6 @@ app.get('/gift-certificates/bydate', function (req, res) {
 
 app.get('/gift-certificates/today', function (req, res) {
     var today = getToday();
-    console.log("I'm being hit");
 
     var sql = 'SELECT * FROM GiftCertificates WHERE date_sold = ' + conn.escape(today) + ' ORDER BY gift_certificate_id DESC';
     var query = conn.query(sql, function (err, results) {
@@ -144,7 +141,7 @@ app.get('/gift-certificates/today', function (req, res) {
     });
 });
 
-app.get('/gift-certificates/bydates', function (req, res) {
+app.post('/gift-certificates/bydates', function (req, res) {
     var begin_date = req.body.begin_date;
     var end_date = req.body.end_date;
 

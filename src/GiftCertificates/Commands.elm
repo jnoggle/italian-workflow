@@ -3,6 +3,8 @@ module GiftCertificates.Commands exposing (..)
 import Http exposing (..)
 import Json.Decode as Decode exposing (Decoder, field, maybe)
 import Json.Encode as Encode
+import Date exposing (Date, day, month, year)
+import Date.Extra exposing (monthNumber)
 import GiftCertificates.Models exposing (GiftCertificate)
 import GiftCertificates.Messages exposing (Msg(..))
 
@@ -27,6 +29,11 @@ redeemUrl =
     giftCertificateUrl ++ "/redeem"
 
 
+byDatesUrl : String
+byDatesUrl =
+    giftCertificateUrl ++ "/bydates"
+
+
 giftCertificateEncoder : Float -> Float -> Maybe String -> Encode.Value
 giftCertificateEncoder amount sale_price memo =
     Encode.object
@@ -42,6 +49,23 @@ giftCertificateEncoder amount sale_price memo =
             )
           )
         ]
+
+
+datesEncoder : Date -> Date -> Encode.Value
+datesEncoder beginDate endDate =
+    -- Encode.object
+    --     [ ( "begin_date", Encode.string "2017-3-27" )
+    --     , ( "end_date", Encode.string "2017-3-20" )
+    --     ]
+    Encode.object
+        [ ( "begin_date", Encode.string (formatDate beginDate) )
+        , ( "end_date", Encode.string (formatDate endDate) )
+        ]
+
+
+formatDate : Date -> String
+formatDate d =
+    toString (year d) ++ "-" ++ toString (monthNumber d) ++ "-" ++ toString (day d)
 
 
 postGiftCertificate : Float -> Float -> Maybe String -> String -> Http.Request GiftCertificate
@@ -70,6 +94,19 @@ getGiftCertificates apiUrl =
         }
 
 
+getGiftCertificatesByDates : Date -> Date -> String -> Http.Request (List GiftCertificate)
+getGiftCertificatesByDates beginDate endDate apiUrl =
+    Http.request
+        { method = "POST"
+        , expect = Http.expectJson (Decode.list giftCertificateDecoder)
+        , timeout = Nothing
+        , withCredentials = False
+        , headers = []
+        , url = apiUrl
+        , body = (datesEncoder beginDate endDate) |> Http.jsonBody
+        }
+
+
 redeemGiftCertificate : String -> String -> Http.Request String
 redeemGiftCertificate id apiUrl =
     Http.request
@@ -95,12 +132,17 @@ postGiftCertificateCmd amount sale_price memo =
 
 fetchAll : Cmd Msg
 fetchAll =
-    Http.send OnFetchAll <| getGiftCertificates giftCertificateUrl
+    Http.send OnFetch <| getGiftCertificates giftCertificateUrl
 
 
 fetchTodays : Cmd Msg
 fetchTodays =
     Http.send OnFetchTodays <| getGiftCertificates todayUrl
+
+
+fetchByDates : Date -> Date -> Cmd Msg
+fetchByDates beginDate endDate =
+    Http.send OnFetch <| (getGiftCertificatesByDates beginDate endDate) byDatesUrl
 
 
 giftCertificateDecoder : Decoder GiftCertificate

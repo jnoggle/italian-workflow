@@ -4,7 +4,7 @@ import GiftCertificates.Messages exposing (Msg(..))
 import GiftCertificates.Models exposing (Model, GiftCertificate)
 import Navigation
 import Material
-import GiftCertificates.Commands exposing (fetchAll, postGiftCertificateCmd, redeemGiftCertificateCmd)
+import GiftCertificates.Commands exposing (fetchAll, postGiftCertificateCmd, redeemGiftCertificateCmd, fetchByDates)
 import DatePicker
 
 
@@ -14,10 +14,23 @@ update message model =
         FetchGiftCertificates ->
             ( model, fetchAll )
 
-        OnFetchAll (Ok newGiftCertificates) ->
+        FetchGiftCertificatesByDates ->
+            case model.beginDate of
+                Just beginDate ->
+                    case model.endDate of
+                        Just endDate ->
+                            ( model, fetchByDates beginDate endDate )
+
+                        _ ->
+                            ( model, Cmd.none )
+
+                _ ->
+                    ( model, Cmd.none )
+
+        OnFetch (Ok newGiftCertificates) ->
             ( { model | giftCertificates = newGiftCertificates }, Cmd.none )
 
-        OnFetchAll (Err error) ->
+        OnFetch (Err error) ->
             ( model, Cmd.none )
 
         OnFetchTodays (Ok newGiftCertificates) ->

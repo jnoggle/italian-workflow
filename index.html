@@ -17845,7 +17845,9 @@ var _user$project$GiftCertificates_Models$Model = function (a) {
 									return function (j) {
 										return function (k) {
 											return function (l) {
-												return {giftCertificates: a, newAmount: b, newSale_price: c, newMemo: d, redeemId: e, redemptionStatus: f, errorMsg: g, beginDate: h, endDate: i, datePicker: j, mdl: k, tab: l};
+												return function (m) {
+													return {giftCertificates: a, newAmount: b, newSale_price: c, newMemo: d, redeemId: e, redemptionStatus: f, errorMsg: g, beginDate: h, endDate: i, beginDatePicker: j, endDatePicker: k, mdl: l, tab: m};
+												};
 											};
 										};
 									};
@@ -17867,8 +17869,11 @@ var _user$project$Models$Username = {ctor: 'Username'};
 var _user$project$GiftCertificates_Messages$Mdl = function (a) {
 	return {ctor: 'Mdl', _0: a};
 };
-var _user$project$GiftCertificates_Messages$ToDatePicker = function (a) {
-	return {ctor: 'ToDatePicker', _0: a};
+var _user$project$GiftCertificates_Messages$ToEndDatePicker = function (a) {
+	return {ctor: 'ToEndDatePicker', _0: a};
+};
+var _user$project$GiftCertificates_Messages$ToBeginDatePicker = function (a) {
+	return {ctor: 'ToBeginDatePicker', _0: a};
 };
 var _user$project$GiftCertificates_Messages$SelectTab = function (a) {
 	return {ctor: 'SelectTab', _0: a};
@@ -17893,9 +17898,10 @@ var _user$project$GiftCertificates_Messages$OnGiftCertificateRedeemed = function
 var _user$project$GiftCertificates_Messages$OnFetchTodays = function (a) {
 	return {ctor: 'OnFetchTodays', _0: a};
 };
-var _user$project$GiftCertificates_Messages$OnFetchAll = function (a) {
-	return {ctor: 'OnFetchAll', _0: a};
+var _user$project$GiftCertificates_Messages$OnFetch = function (a) {
+	return {ctor: 'OnFetch', _0: a};
 };
+var _user$project$GiftCertificates_Messages$FetchGiftCertificatesByDates = {ctor: 'FetchGiftCertificatesByDates'};
 var _user$project$GiftCertificates_Messages$FetchGiftCertificates = {ctor: 'FetchGiftCertificates'};
 var _user$project$Messages$Mdl = function (a) {
 	return {ctor: 'Mdl', _0: a};
@@ -18008,6 +18014,62 @@ var _user$project$GiftCertificates_Commands$getGiftCertificates = function (apiU
 			body: _elm_lang$http$Http$emptyBody
 		});
 };
+var _user$project$GiftCertificates_Commands$formatDate = function (d) {
+	return A2(
+		_elm_lang$core$Basics_ops['++'],
+		_elm_lang$core$Basics$toString(
+			_elm_lang$core$Date$year(d)),
+		A2(
+			_elm_lang$core$Basics_ops['++'],
+			'/',
+			A2(
+				_elm_lang$core$Basics_ops['++'],
+				_elm_lang$core$Basics$toString(
+					_elm_lang$core$Date$month(d)),
+				A2(
+					_elm_lang$core$Basics_ops['++'],
+					'/',
+					_elm_lang$core$Basics$toString(
+						_elm_lang$core$Date$day(d))))));
+};
+var _user$project$GiftCertificates_Commands$datesEncoder = F2(
+	function (beginDate, endDate) {
+		return _elm_lang$core$Json_Encode$object(
+			{
+				ctor: '::',
+				_0: {
+					ctor: '_Tuple2',
+					_0: 'begin_date',
+					_1: _elm_lang$core$Json_Encode$string(
+						_user$project$GiftCertificates_Commands$formatDate(beginDate))
+				},
+				_1: {
+					ctor: '::',
+					_0: {
+						ctor: '_Tuple2',
+						_0: 'end_date',
+						_1: _elm_lang$core$Json_Encode$string(
+							_user$project$GiftCertificates_Commands$formatDate(endDate))
+					},
+					_1: {ctor: '[]'}
+				}
+			});
+	});
+var _user$project$GiftCertificates_Commands$getGiftCertificatesByDates = F3(
+	function (beginDate, endDate, apiUrl) {
+		return _elm_lang$http$Http$request(
+			{
+				method: 'GET',
+				expect: _elm_lang$http$Http$expectJson(
+					_elm_lang$core$Json_Decode$list(_user$project$GiftCertificates_Commands$giftCertificateDecoder)),
+				timeout: _elm_lang$core$Maybe$Nothing,
+				withCredentials: false,
+				headers: {ctor: '[]'},
+				url: apiUrl,
+				body: _elm_lang$http$Http$jsonBody(
+					A2(_user$project$GiftCertificates_Commands$datesEncoder, beginDate, endDate))
+			});
+	});
 var _user$project$GiftCertificates_Commands$giftCertificateEncoder = F3(
 	function (amount, sale_price, memo) {
 		return _elm_lang$core$Json_Encode$object(
@@ -18072,6 +18134,14 @@ var _user$project$GiftCertificates_Commands$redeemGiftCertificateCmd = function 
 		_user$project$GiftCertificates_Messages$OnGiftCertificateRedeemed,
 		A2(_user$project$GiftCertificates_Commands$redeemGiftCertificate, id, _user$project$GiftCertificates_Commands$redeemUrl));
 };
+var _user$project$GiftCertificates_Commands$byDatesUrl = A2(_elm_lang$core$Basics_ops['++'], _user$project$GiftCertificates_Commands$giftCertificateUrl, '/bydates');
+var _user$project$GiftCertificates_Commands$fetchByDates = F2(
+	function (beginDate, endDate) {
+		return A2(
+			_elm_lang$http$Http$send,
+			_user$project$GiftCertificates_Messages$OnFetch,
+			A3(_user$project$GiftCertificates_Commands$getGiftCertificatesByDates, beginDate, endDate, _user$project$GiftCertificates_Commands$byDatesUrl));
+	});
 var _user$project$GiftCertificates_Commands$postGiftCertificateCmd = F3(
 	function (amount, sale_price, memo) {
 		return A2(
@@ -18081,12 +18151,15 @@ var _user$project$GiftCertificates_Commands$postGiftCertificateCmd = F3(
 	});
 var _user$project$GiftCertificates_Commands$fetchAll = A2(
 	_elm_lang$http$Http$send,
-	_user$project$GiftCertificates_Messages$OnFetchAll,
+	_user$project$GiftCertificates_Messages$OnFetch,
 	_user$project$GiftCertificates_Commands$getGiftCertificates(_user$project$GiftCertificates_Commands$giftCertificateUrl));
 var _user$project$GiftCertificates_Init$init = function () {
 	var _p0 = _Bogdanp$elm_datepicker$DatePicker$init(_Bogdanp$elm_datepicker$DatePicker$defaultSettings);
-	var datePicker = _p0._0;
-	var datePickerFx = _p0._1;
+	var endDatePicker = _p0._0;
+	var endDatePickerFx = _p0._1;
+	var _p1 = _Bogdanp$elm_datepicker$DatePicker$init(_Bogdanp$elm_datepicker$DatePicker$defaultSettings);
+	var beginDatePicker = _p1._0;
+	var beginDatePickerFx = _p1._1;
 	var model = {
 		giftCertificates: {ctor: '[]'},
 		newAmount: 0.0,
@@ -18097,7 +18170,8 @@ var _user$project$GiftCertificates_Init$init = function () {
 		errorMsg: '',
 		beginDate: _elm_lang$core$Maybe$Nothing,
 		endDate: _elm_lang$core$Maybe$Nothing,
-		datePicker: datePicker,
+		beginDatePicker: beginDatePicker,
+		endDatePicker: endDatePicker,
 		mdl: _debois$elm_mdl$Material$model,
 		tab: 0
 	};
@@ -18107,11 +18181,15 @@ var _user$project$GiftCertificates_Init$init = function () {
 		_1: _elm_lang$core$Platform_Cmd$batch(
 			{
 				ctor: '::',
-				_0: A2(_elm_lang$core$Platform_Cmd$map, _user$project$GiftCertificates_Messages$ToDatePicker, datePickerFx),
+				_0: A2(_elm_lang$core$Platform_Cmd$map, _user$project$GiftCertificates_Messages$ToBeginDatePicker, beginDatePickerFx),
 				_1: {
 					ctor: '::',
-					_0: _user$project$GiftCertificates_Commands$fetchTodays,
-					_1: {ctor: '[]'}
+					_0: A2(_elm_lang$core$Platform_Cmd$map, _user$project$GiftCertificates_Messages$ToEndDatePicker, endDatePickerFx),
+					_1: {
+						ctor: '::',
+						_0: _user$project$GiftCertificates_Commands$fetchTodays,
+						_1: {ctor: '[]'}
+					}
 				}
 			})
 	};
@@ -18125,7 +18203,23 @@ var _user$project$GiftCertificates_Update$update = F2(
 		switch (_p0.ctor) {
 			case 'FetchGiftCertificates':
 				return {ctor: '_Tuple2', _0: model, _1: _user$project$GiftCertificates_Commands$fetchAll};
-			case 'OnFetchAll':
+			case 'FetchGiftCertificatesByDates':
+				var _p1 = model.beginDate;
+				if (_p1.ctor === 'Just') {
+					var _p2 = model.endDate;
+					if (_p2.ctor === 'Just') {
+						return {
+							ctor: '_Tuple2',
+							_0: model,
+							_1: A2(_user$project$GiftCertificates_Commands$fetchByDates, _p1._0, _p2._0)
+						};
+					} else {
+						return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
+					}
+				} else {
+					return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
+				}
+			case 'OnFetch':
 				if (_p0._0.ctor === 'Ok') {
 					return {
 						ctor: '_Tuple2',
@@ -18171,12 +18265,12 @@ var _user$project$GiftCertificates_Update$update = F2(
 					};
 				}
 			case 'SetAmount':
-				var _p1 = _p0._0;
+				var _p3 = _p0._0;
 				return {
 					ctor: '_Tuple2',
 					_0: _elm_lang$core$Native_Utils.update(
 						model,
-						{newAmount: _p1, newSale_price: _p1}),
+						{newAmount: _p3, newSale_price: _p3}),
 					_1: _elm_lang$core$Platform_Cmd$none
 				};
 			case 'SetMemo':
@@ -18245,27 +18339,50 @@ var _user$project$GiftCertificates_Update$update = F2(
 				};
 			case 'Mdl':
 				return A3(_debois$elm_mdl$Material$update, _user$project$GiftCertificates_Messages$Mdl, _p0._0, model);
-			default:
-				var _p2 = A2(_Bogdanp$elm_datepicker$DatePicker$update, _p0._0, model.datePicker);
-				var newDatePicker = _p2._0;
-				var datePickerFx = _p2._1;
-				var mDate = _p2._2;
+			case 'ToBeginDatePicker':
+				var _p4 = A2(_Bogdanp$elm_datepicker$DatePicker$update, _p0._0, model.beginDatePicker);
+				var newDatePicker = _p4._0;
+				var datePickerFx = _p4._1;
+				var mDate = _p4._2;
 				var beginDate = function () {
-					var _p3 = mDate;
-					if (_p3.ctor === 'Nothing') {
+					var _p5 = mDate;
+					if (_p5.ctor === 'Nothing') {
 						return model.beginDate;
 					} else {
-						return _p3;
+						return _p5;
 					}
 				}();
 				return A2(
 					_elm_lang$core$Platform_Cmd_ops['!'],
 					_elm_lang$core$Native_Utils.update(
 						model,
-						{beginDate: beginDate, datePicker: newDatePicker}),
+						{beginDate: beginDate, beginDatePicker: newDatePicker}),
 					{
 						ctor: '::',
-						_0: A2(_elm_lang$core$Platform_Cmd$map, _user$project$GiftCertificates_Messages$ToDatePicker, datePickerFx),
+						_0: A2(_elm_lang$core$Platform_Cmd$map, _user$project$GiftCertificates_Messages$ToBeginDatePicker, datePickerFx),
+						_1: {ctor: '[]'}
+					});
+			default:
+				var _p6 = A2(_Bogdanp$elm_datepicker$DatePicker$update, _p0._0, model.endDatePicker);
+				var newDatePicker = _p6._0;
+				var datePickerFx = _p6._1;
+				var mDate = _p6._2;
+				var endDate = function () {
+					var _p7 = mDate;
+					if (_p7.ctor === 'Nothing') {
+						return model.endDate;
+					} else {
+						return _p7;
+					}
+				}();
+				return A2(
+					_elm_lang$core$Platform_Cmd_ops['!'],
+					_elm_lang$core$Native_Utils.update(
+						model,
+						{endDate: endDate, endDatePicker: newDatePicker}),
+					{
+						ctor: '::',
+						_0: A2(_elm_lang$core$Platform_Cmd$map, _user$project$GiftCertificates_Messages$ToEndDatePicker, datePickerFx),
 						_1: {ctor: '[]'}
 					});
 		}
@@ -18672,155 +18789,162 @@ var _user$project$GiftCertificates_View$addGiftCertificateView = function (model
 			}
 		});
 };
+var _user$project$GiftCertificates_View$redeemTextField = function (model) {
+	return A5(
+		_debois$elm_mdl$Material_Textfield$render,
+		_user$project$GiftCertificates_Messages$Mdl,
+		{
+			ctor: '::',
+			_0: 11,
+			_1: {ctor: '[]'}
+		},
+		model.mdl,
+		{
+			ctor: '::',
+			_0: _debois$elm_mdl$Material_Textfield$label('Gift Certificate Id'),
+			_1: {
+				ctor: '::',
+				_0: _debois$elm_mdl$Material_Textfield$text_,
+				_1: {
+					ctor: '::',
+					_0: _debois$elm_mdl$Material_Textfield$value(model.redeemId),
+					_1: {
+						ctor: '::',
+						_0: _debois$elm_mdl$Material_Options$onInput(_user$project$GiftCertificates_Messages$SetRedeemId),
+						_1: {
+							ctor: '::',
+							_0: A2(_debois$elm_mdl$Material_Options$css, 'margin', '50px 25px'),
+							_1: {ctor: '[]'}
+						}
+					}
+				}
+			}
+		},
+		{ctor: '[]'});
+};
+var _user$project$GiftCertificates_View$redeemButton = function (model) {
+	return A5(
+		_debois$elm_mdl$Material_Button$render,
+		_user$project$GiftCertificates_Messages$Mdl,
+		{
+			ctor: '::',
+			_0: 12,
+			_1: {ctor: '[]'}
+		},
+		model.mdl,
+		{
+			ctor: '::',
+			_0: _debois$elm_mdl$Material_Button$raised,
+			_1: {
+				ctor: '::',
+				_0: _elm_lang$core$Native_Utils.eq(model.redeemId, '') ? _debois$elm_mdl$Material_Button$disabled : _debois$elm_mdl$Material_Button$colored,
+				_1: {
+					ctor: '::',
+					_0: _debois$elm_mdl$Material_Options$onClick(_user$project$GiftCertificates_Messages$RedeemGiftCertificate),
+					_1: {
+						ctor: '::',
+						_0: A2(_debois$elm_mdl$Material_Options$css, 'margin', '50px 25px'),
+						_1: {ctor: '[]'}
+					}
+				}
+			}
+		},
+		{
+			ctor: '::',
+			_0: _debois$elm_mdl$Material_Icon$i('add'),
+			_1: {ctor: '[]'}
+		});
+};
 var _user$project$GiftCertificates_View$redeemTab = function (model) {
 	return A2(
 		_debois$elm_mdl$Material_Options$div,
 		{ctor: '[]'},
 		{
 			ctor: '::',
-			_0: A5(
-				_debois$elm_mdl$Material_Textfield$render,
-				_user$project$GiftCertificates_Messages$Mdl,
-				{
-					ctor: '::',
-					_0: 11,
-					_1: {ctor: '[]'}
-				},
-				model.mdl,
-				{
-					ctor: '::',
-					_0: _debois$elm_mdl$Material_Textfield$label('Gift Certificate Id'),
-					_1: {
-						ctor: '::',
-						_0: _debois$elm_mdl$Material_Textfield$text_,
-						_1: {
-							ctor: '::',
-							_0: _debois$elm_mdl$Material_Textfield$value(model.redeemId),
-							_1: {
-								ctor: '::',
-								_0: _debois$elm_mdl$Material_Options$onInput(_user$project$GiftCertificates_Messages$SetRedeemId),
-								_1: {
-									ctor: '::',
-									_0: A2(_debois$elm_mdl$Material_Options$css, 'margin', '50px 25px'),
-									_1: {ctor: '[]'}
-								}
-							}
-						}
-					}
-				},
-				{ctor: '[]'}),
+			_0: _user$project$GiftCertificates_View$redeemTextField(model),
 			_1: {
 				ctor: '::',
-				_0: A5(
-					_debois$elm_mdl$Material_Button$render,
-					_user$project$GiftCertificates_Messages$Mdl,
-					{
-						ctor: '::',
-						_0: 12,
-						_1: {ctor: '[]'}
-					},
-					model.mdl,
-					{
-						ctor: '::',
-						_0: _debois$elm_mdl$Material_Button$raised,
-						_1: {
-							ctor: '::',
-							_0: _elm_lang$core$Native_Utils.eq(model.redeemId, '') ? _debois$elm_mdl$Material_Button$disabled : _debois$elm_mdl$Material_Button$colored,
-							_1: {
-								ctor: '::',
-								_0: _debois$elm_mdl$Material_Options$onClick(_user$project$GiftCertificates_Messages$RedeemGiftCertificate),
-								_1: {
-									ctor: '::',
-									_0: A2(_debois$elm_mdl$Material_Options$css, 'margin', '50px 25px'),
-									_1: {ctor: '[]'}
-								}
-							}
-						}
-					},
-					{
-						ctor: '::',
-						_0: _debois$elm_mdl$Material_Icon$i('add'),
-						_1: {ctor: '[]'}
-					}),
+				_0: _user$project$GiftCertificates_View$redeemButton(model),
 				_1: {ctor: '[]'}
 			}
 		});
 };
-var _user$project$GiftCertificates_View$formatDate = function (d) {
-	return A2(
-		_elm_lang$core$Basics_ops['++'],
-		_elm_lang$core$Basics$toString(
-			_elm_lang$core$Date$month(d)),
-		A2(
-			_elm_lang$core$Basics_ops['++'],
-			' ',
-			A2(
-				_elm_lang$core$Basics_ops['++'],
-				_elm_lang$core$Basics$toString(
-					_elm_lang$core$Date$day(d)),
-				A2(
-					_elm_lang$core$Basics_ops['++'],
-					', ',
-					_elm_lang$core$Basics$toString(
-						_elm_lang$core$Date$year(d))))));
-};
-var _user$project$GiftCertificates_View$drawDatePicker = F2(
-	function (datePicker, date) {
-		return A2(
-			_debois$elm_mdl$Material_Options$div,
-			{ctor: '[]'},
-			{
+var _user$project$GiftCertificates_View$loadReportsButton = function (model) {
+	return A5(
+		_debois$elm_mdl$Material_Button$render,
+		_user$project$GiftCertificates_Messages$Mdl,
+		{
+			ctor: '::',
+			_0: 13,
+			_1: {ctor: '[]'}
+		},
+		model.mdl,
+		{
+			ctor: '::',
+			_0: _debois$elm_mdl$Material_Button$raised,
+			_1: {
 				ctor: '::',
 				_0: function () {
-					var _p2 = date;
-					if (_p2.ctor === 'Nothing') {
-						return A2(
-							_elm_lang$html$Html$h1,
-							{ctor: '[]'},
-							{
-								ctor: '::',
-								_0: _elm_lang$html$Html$text('Pick a date'),
-								_1: {ctor: '[]'}
-							});
+					var _p2 = model.beginDate;
+					if (_p2.ctor === 'Just') {
+						var _p3 = model.endDate;
+						if (_p3.ctor === 'Just') {
+							return _debois$elm_mdl$Material_Button$colored;
+						} else {
+							return _debois$elm_mdl$Material_Button$disabled;
+						}
 					} else {
-						return A2(
-							_elm_lang$html$Html$h1,
-							{ctor: '[]'},
-							{
-								ctor: '::',
-								_0: _elm_lang$html$Html$text(
-									_user$project$GiftCertificates_View$formatDate(_p2._0)),
-								_1: {ctor: '[]'}
-							});
+						return _debois$elm_mdl$Material_Button$disabled;
 					}
 				}(),
 				_1: {
 					ctor: '::',
-					_0: A2(
-						_elm_lang$html$Html$map,
-						_user$project$GiftCertificates_Messages$ToDatePicker,
-						_Bogdanp$elm_datepicker$DatePicker$view(datePicker)),
-					_1: {ctor: '[]'}
+					_0: _debois$elm_mdl$Material_Options$onClick(_user$project$GiftCertificates_Messages$FetchGiftCertificatesByDates),
+					_1: {
+						ctor: '::',
+						_0: A2(_debois$elm_mdl$Material_Options$css, 'margin', '50px 25px'),
+						_1: {ctor: '[]'}
+					}
 				}
-			});
-	});
+			}
+		},
+		{
+			ctor: '::',
+			_0: _debois$elm_mdl$Material_Icon$i('load'),
+			_1: {ctor: '[]'}
+		});
+};
 var _user$project$GiftCertificates_View$reportsTab = function (model) {
 	return A2(
 		_debois$elm_mdl$Material_Options$div,
-		{ctor: '[]'},
+		{
+			ctor: '::',
+			_0: A2(_debois$elm_mdl$Material_Options$css, 'margin', '50px 25px'),
+			_1: {ctor: '[]'}
+		},
 		{
 			ctor: '::',
 			_0: _elm_lang$html$Html$text('From'),
 			_1: {
 				ctor: '::',
-				_0: A2(_user$project$GiftCertificates_View$drawDatePicker, model.datePicker, model.beginDate),
+				_0: A2(
+					_elm_lang$html$Html$map,
+					_user$project$GiftCertificates_Messages$ToBeginDatePicker,
+					_Bogdanp$elm_datepicker$DatePicker$view(model.beginDatePicker)),
 				_1: {
 					ctor: '::',
-					_0: _elm_lang$html$Html$text('From'),
+					_0: _elm_lang$html$Html$text('To'),
 					_1: {
 						ctor: '::',
-						_0: A2(_user$project$GiftCertificates_View$drawDatePicker, model.datePicker, model.endDate),
-						_1: {ctor: '[]'}
+						_0: A2(
+							_elm_lang$html$Html$map,
+							_user$project$GiftCertificates_Messages$ToEndDatePicker,
+							_Bogdanp$elm_datepicker$DatePicker$view(model.endDatePicker)),
+						_1: {
+							ctor: '::',
+							_0: _user$project$GiftCertificates_View$loadReportsButton(model),
+							_1: {ctor: '[]'}
+						}
 					}
 				}
 			}
@@ -18954,8 +19078,8 @@ var _user$project$GiftCertificates_View$view = function (model) {
 				{
 					ctor: '::',
 					_0: function () {
-						var _p3 = model.tab;
-						switch (_p3) {
+						var _p4 = model.tab;
+						switch (_p4) {
 							case 0:
 								return _user$project$GiftCertificates_View$newTab(model);
 							case 1:

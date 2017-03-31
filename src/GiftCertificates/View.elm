@@ -77,48 +77,79 @@ newTab model =
 reportsTab : Model -> Html Msg
 reportsTab model =
     Options.div
-        []
+        [ Options.css "margin" "50px 25px"
+        ]
         [ text "From"
         , DatePicker.view model.beginDatePicker
             |> Html.map ToBeginDatePicker
         , text "To"
         , DatePicker.view model.endDatePicker
             |> Html.map ToEndDatePicker
+        , loadReportsButton model
+        , table model.giftCertificates
         ]
 
 
-formatDate : Date -> String
-formatDate d =
-    toString (month d) ++ " " ++ toString (day d) ++ ", " ++ toString (year d)
+loadReportsButton : Model -> Html Msg
+loadReportsButton model =
+    Button.render Mdl
+        [ 13 ]
+        model.mdl
+        [ Button.raised
+        , case model.beginDate of
+            Just beginDate ->
+                case model.endDate of
+                    Just endDate ->
+                        Button.colored
+
+                    _ ->
+                        Button.disabled
+
+            _ ->
+                Button.disabled
+        , Options.onClick FetchGiftCertificatesByDates
+        , Options.css "margin" "50px 25px"
+        ]
+        [ Icon.i "load" ]
 
 
 redeemTab : Model -> Html Msg
 redeemTab model =
     Options.div
         []
-        [ Textfield.render Mdl
-            [ 11 ]
-            model.mdl
-            [ Textfield.label "Gift Certificate Id"
-            , Textfield.text_
-            , Textfield.value model.redeemId
-            , Options.onInput SetRedeemId
-            , Options.css "margin" "50px 25px"
-            ]
-            []
-        , Button.render Mdl
-            [ 12 ]
-            model.mdl
-            [ Button.raised
-            , if model.redeemId == "" then
-                Button.disabled
-              else
-                Button.colored
-            , Options.onClick RedeemGiftCertificate
-            , Options.css "margin" "50px 25px"
-            ]
-            [ Icon.i "add" ]
+        [ redeemTextField model
+        , redeemButton model
         ]
+
+
+redeemButton : Model -> Html Msg
+redeemButton model =
+    Button.render Mdl
+        [ 12 ]
+        model.mdl
+        [ Button.raised
+        , if model.redeemId == "" then
+            Button.disabled
+          else
+            Button.colored
+        , Options.onClick RedeemGiftCertificate
+        , Options.css "margin" "50px 25px"
+        ]
+        [ Icon.i "add" ]
+
+
+redeemTextField : Model -> Html Msg
+redeemTextField model =
+    Textfield.render Mdl
+        [ 11 ]
+        model.mdl
+        [ Textfield.label "Gift Certificate Id"
+        , Textfield.text_
+        , Textfield.value model.redeemId
+        , Options.onInput SetRedeemId
+        , Options.css "margin" "50px 25px"
+        ]
+        []
 
 
 addGiftCertificateView : Model -> Html Msg
