@@ -78,13 +78,18 @@ reportsTab : Model -> Html Msg
 reportsTab model =
     Options.div
         [ Options.css "margin" "50px 25px"
+        , Options.css "text-align" "center"
         ]
-        [ text "From"
-        , DatePicker.view model.beginDatePicker
-            |> Html.map ToBeginDatePicker
-        , text "To"
-        , DatePicker.view model.endDatePicker
-            |> Html.map ToEndDatePicker
+        [ Options.div
+            [ Options.css "margin" "auto"
+            ]
+            [ text "From "
+            , DatePicker.view model.beginDatePicker
+                |> Html.map ToBeginDatePicker
+            , text "To "
+            , DatePicker.view model.endDatePicker
+                |> Html.map ToEndDatePicker
+            ]
         , loadReportsButton model
         , table model.giftCertificates
         ]
@@ -110,7 +115,7 @@ loadReportsButton model =
         , Options.onClick FetchGiftCertificatesByDates
         , Options.css "margin" "50px 25px"
         ]
-        [ Icon.i "load" ]
+        [ Icon.i "add" ]
 
 
 redeemTab : Model -> Html Msg
