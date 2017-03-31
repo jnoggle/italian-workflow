@@ -3,6 +3,7 @@ module GiftCertificates.Messages exposing (..)
 import Http
 import GiftCertificates.Models exposing (GiftCertificate)
 import Material
+import DatePicker
 
 
 type Msg
@@ -17,4 +18,6 @@ type Msg
     | RedeemGiftCertificate
     | OnGiftCertificatePosted (Result Http.Error GiftCertificate)
     | SelectTab Int
+    | ToBeginDatePicker DatePicker.Msg
+    | ToEndDatePicker DatePicker.Msg
     | Mdl (Material.Msg Msg)

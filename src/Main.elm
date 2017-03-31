@@ -3,21 +3,40 @@ module Main exposing (..)
 import Navigation exposing (Location)
 import Material
 import Messages exposing (Msg(..))
-import Models exposing (Model, initialModel)
+import Models exposing (Model)
 import Update exposing (update)
 import View exposing (view)
 import Routing exposing (Route)
 import GiftCertificates.Commands exposing (fetchTodays)
 import GiftCertificates.Subscriptions
+import GiftCertificates.Models
+import GiftCertificates.Init
 
 
 init : Location -> ( Model, Cmd Msg )
 init location =
     let
-        currentRoute =
+        route =
             Routing.parseLocation location
+
+        ( giftCertificatesModel, giftCertificateCmd ) =
+            GiftCertificates.Init.init
+
+        model =
+            { user_id = ""
+            , username = ""
+            , password = ""
+            , token = ""
+            , errorMsg = ""
+            , giftCertificates = giftCertificatesModel
+            , route = route
+            , mdl = Material.model
+            }
+
+        cmd =
+            Cmd.map GiftCertificateMsg giftCertificateCmd
     in
-        ( initialModel currentRoute, Cmd.map GiftCertificateMsg fetchTodays )
+        ( model, cmd )
 
 
 

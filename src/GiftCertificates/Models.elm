@@ -1,6 +1,8 @@
 module GiftCertificates.Models exposing (..)
 
 import Material
+import DatePicker exposing (defaultSettings)
+import Date exposing (Date, Day(..), day, dayOfWeek, month, year)
 
 
 type alias GiftCertificate =
@@ -22,11 +24,16 @@ type alias Model =
     , redeemId : String
     , redemptionStatus : String
     , errorMsg : String
+    , beginDate : Maybe Date
+    , endDate : Maybe Date
+    , beginDatePicker : DatePicker.DatePicker
+    , endDatePicker : DatePicker.DatePicker
     , mdl : Material.Model
     , tab : Int
     }
 
 
-initialModel : Model
-initialModel =
-    Model [] 0.0 0.0 "" "" "" "" Material.model 0
+
+-- initialModel : Model
+-- initialModel =
+--     Model [] 0.0 0.0 "" "" "" "" Nothing Nothing DatePicker.init Material.model 0

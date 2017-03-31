@@ -2,7 +2,7 @@ module Models exposing (..)
 
 import Material
 import Routing
-import GiftCertificates.Models exposing (Model, initialModel)
+import GiftCertificates.Models exposing (Model)
 
 
 type Field
@@ -22,6 +22,7 @@ type alias Model =
     }
 
 
-initialModel : Routing.Route -> Model
-initialModel route =
-    Model "" "" "" "" "" GiftCertificates.Models.initialModel route Material.model
+
+-- initialModel : Routing.Route -> Model
+-- initialModel route =
+--     Model "" "" "" "" "" GiftCertificates.Models.initialModel route Material.model

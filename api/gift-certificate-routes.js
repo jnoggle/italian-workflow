@@ -145,14 +145,14 @@ app.get('/gift-certificates/today', function (req, res) {
 });
 
 app.get('/gift-certificates/bydates', function (req, res) {
-    var start_date = req.body.start_date;
+    var begin_date = req.body.begin_date;
     var end_date = req.body.end_date;
 
-    if (!start_date || !end_date) {
-        return res.status(400).send("Invalid request, expected start_date and end_date");
+    if (!begin_date || !end_date) {
+        return res.status(400).send("Invalid request, expected begin_date and end_date");
     }
 
-    var sql = 'SELECT * FROM GiftCertificates WHERE date_sold BETWEEN ' + conn.escape(start_date) + ' AND ' + conn.escape(end_date);
+    var sql = 'SELECT * FROM GiftCertificates WHERE date_sold BETWEEN ' + conn.escape(begin_date) + ' AND ' + conn.escape(end_date);
     var query = conn.query(sql, function (err, results) {
         if (err) {
             console.log(err);

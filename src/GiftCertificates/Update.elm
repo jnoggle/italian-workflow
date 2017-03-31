@@ -5,6 +5,7 @@ import GiftCertificates.Models exposing (Model, GiftCertificate)
 import Navigation
 import Material
 import GiftCertificates.Commands exposing (fetchAll, postGiftCertificateCmd, redeemGiftCertificateCmd)
+import DatePicker
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -57,3 +58,41 @@ update message model =
 
         Mdl msg_ ->
             Material.update Mdl msg_ model
+
+        ToBeginDatePicker msg ->
+            let
+                ( newDatePicker, datePickerFx, mDate ) =
+                    DatePicker.update msg model.beginDatePicker
+
+                beginDate =
+                    case mDate of
+                        Nothing ->
+                            model.beginDate
+
+                        date ->
+                            date
+            in
+                { model
+                    | beginDate = beginDate
+                    , beginDatePicker = newDatePicker
+                }
+                    ! [ Cmd.map ToBeginDatePicker datePickerFx ]
+
+        ToEndDatePicker msg ->
+            let
+                ( newDatePicker, datePickerFx, mDate ) =
+                    DatePicker.update msg model.endDatePicker
+
+                endDate =
+                    case mDate of
+                        Nothing ->
+                            model.endDate
+
+                        date ->
+                            date
+            in
+                { model
+                    | endDate = endDate
+                    , endDatePicker = newDatePicker
+                }
+                    ! [ Cmd.map ToEndDatePicker datePickerFx ]

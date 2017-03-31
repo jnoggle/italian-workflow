@@ -11,6 +11,8 @@ import Material.Textfield as Textfield
 import Material.Icon as Icon
 import Material.Tabs as Tabs
 import Material.Layout as Layout
+import Date exposing (Date, Day(..), day, dayOfWeek, month, year)
+import DatePicker exposing (DatePicker)
 import GiftCertificates.Messages exposing (..)
 import GiftCertificates.Models exposing (..)
 
@@ -74,7 +76,20 @@ newTab model =
 
 reportsTab : Model -> Html Msg
 reportsTab model =
-    text "Not implemented"
+    Options.div
+        []
+        [ text "From"
+        , DatePicker.view model.beginDatePicker
+            |> Html.map ToBeginDatePicker
+        , text "To"
+        , DatePicker.view model.endDatePicker
+            |> Html.map ToEndDatePicker
+        ]
+
+
+formatDate : Date -> String
+formatDate d =
+    toString (month d) ++ " " ++ toString (day d) ++ ", " ++ toString (year d)
 
 
 redeemTab : Model -> Html Msg
