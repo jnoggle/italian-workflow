@@ -151,6 +151,7 @@ redeemTextField model =
         [ Textfield.label "Gift Certificate Id"
         , Textfield.text_
         , Textfield.value model.redeemId
+        , Textfield.autofocus
         , Options.onInput SetRedeemId
         , Options.css "margin" "50px 25px"
         ]

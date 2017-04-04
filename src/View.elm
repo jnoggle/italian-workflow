@@ -119,6 +119,7 @@ loginView model =
                                 , Textfield.floatingLabel
                                 , Textfield.text_
                                 , Textfield.value model.username
+                                , Textfield.autofocus
                                 , Options.onInput (LoginFormInput Username)
                                 ]
                                 []
