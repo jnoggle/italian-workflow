@@ -6,12 +6,12 @@ import Date exposing (Date, Day(..), day, dayOfWeek, month, year)
 
 
 type alias GiftCertificate =
-    { id : String
+    { id : Int
     , amount : Float
     , sale_price : Float
     , date_sold : String
     , redeemed_date : Maybe String
-    , issuer_id : String
+    , username : String
     , memo : Maybe String
     }
 

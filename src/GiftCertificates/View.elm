@@ -178,7 +178,7 @@ table giftCertificates =
                 , Table.th [] [ text "Sale Price" ]
                 , Table.th [] [ text "Date Sold" ]
                 , Table.th [] [ text "Date Redeemed" ]
-                , Table.th [] [ text "Issuer ID" ]
+                , Table.th [] [ text "Issuer" ]
                 , Table.th [] [ text "Memo" ]
                 ]
             ]
@@ -204,7 +204,7 @@ giftCertificateRow giftCertificate =
                         ""
                 )
             ]
-        , Table.td [ Table.numeric ] [ text (toString giftCertificate.issuer_id) ]
+        , Table.td [] [ text giftCertificate.username ]
         , Table.td []
             [ text
                 (case giftCertificate.memo of

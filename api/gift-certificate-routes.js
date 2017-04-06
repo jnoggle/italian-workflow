@@ -130,7 +130,13 @@ app.get('/gift-certificates/bydate', function (req, res) {
 app.get('/gift-certificates/today', function (req, res) {
     var today = getToday();
 
-    var sql = 'SELECT * FROM GiftCertificates WHERE date_sold = ' + conn.escape(today) + ' ORDER BY gift_certificate_id DESC';
+    var sql = 
+    'SELECT GC.gift_certificate_id, GC.amount, GC.sale_price, GC.date_sold, GC.date_redeemed, U.username, GC.memo ' +
+    'FROM GiftCertificates AS GC ' +
+    'INNER JOIN Users AS U ON U.user_id = GC.issuer_id ' +
+    'WHERE date_sold = ' + conn.escape(today) + ' ' +
+    'ORDER BY GC.gift_certificate_id DESC';
+    
     var query = conn.query(sql, function (err, results) {
         if (err) {
             console.log(err);

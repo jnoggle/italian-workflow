@@ -149,10 +149,10 @@ giftCertificateDecoder : Decoder GiftCertificate
 giftCertificateDecoder =
     Decode.map7
         GiftCertificate
-        (field "gift_certificate_id" Decode.string)
+        (field "gift_certificate_id" Decode.int)
         (field "amount" Decode.float)
         (field "sale_price" Decode.float)
         (field "date_sold" Decode.string)
         (maybe (field "date_redeemed" Decode.string))
-        (field "issuer_id" Decode.string)
+        (field "username" Decode.string)
         (maybe (field "memo" Decode.string))
