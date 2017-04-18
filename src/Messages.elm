@@ -1,8 +1,8 @@
 module Messages exposing (..)
 
 import Http
-import Navigation exposing (Location)
 import Material
+import Navigation exposing (Location)
 import Models exposing (Field)
 import GiftCertificates.Messages
 

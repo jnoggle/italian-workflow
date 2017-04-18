@@ -4,9 +4,9 @@ import Navigation exposing (Location)
 import Material
 import Messages exposing (Msg(..))
 import Models exposing (Model)
+import Routing exposing (Route)
 import Update exposing (update)
 import View exposing (view)
-import Routing exposing (Route)
 import GiftCertificates.Commands exposing (fetchTodays)
 import GiftCertificates.Subscriptions
 import GiftCertificates.Models

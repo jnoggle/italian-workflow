@@ -13,8 +13,8 @@ import Material.Tabs as Tabs
 import Material.Layout as Layout
 import Date exposing (Date, Day(..), day, dayOfWeek, month, year)
 import DatePicker exposing (DatePicker)
-import GiftCertificates.Messages exposing (..)
-import GiftCertificates.Models exposing (..)
+import GiftCertificates.Messages exposing (Msg(..))
+import GiftCertificates.Models exposing (Model, GiftCertificate)
 
 
 type alias Mdl =

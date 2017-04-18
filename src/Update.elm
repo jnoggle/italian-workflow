@@ -4,7 +4,7 @@ import Navigation
 import Material
 import Messages exposing (Msg(..))
 import Models exposing (Model, Field(..))
-import Commands exposing (..)
+import Commands exposing (loginUrl, authUserCmd)
 import Routing exposing (parseLocation)
 import GiftCertificates.Update
 

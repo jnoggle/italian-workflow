@@ -4,7 +4,7 @@ import Http
 import Json.Decode as Decode exposing (Decoder, field)
 import Json.Encode as Encode
 import Models exposing (Model)
-import Messages exposing (..)
+import Messages exposing (Msg(..))
 
 
 apiUrl : String
