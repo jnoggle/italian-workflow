@@ -1,6 +1,6 @@
 module GiftCertificates.View exposing (..)
 
-import Html exposing (..)
+import Html exposing (Html, text, div)
 import Html.Attributes exposing (class)
 import Html.Events exposing (onClick)
 import Material

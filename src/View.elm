@@ -1,8 +1,7 @@
 module View exposing (..)
 
-import Html exposing (..)
-import Html.Events exposing (..)
-import Html.Attributes exposing (..)
+import Html exposing (Html, div, text, p, h3)
+import Html.Attributes exposing (class, id)
 import Material
 import Material.Scheme
 import Material.Layout as Layout

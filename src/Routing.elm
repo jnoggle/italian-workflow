@@ -1,7 +1,7 @@
 module Routing exposing (..)
 
 import Navigation exposing (Location)
-import UrlParser exposing (..)
+import UrlParser exposing (Parser, parseHash, s, map, top, oneOf)
 
 
 type Route

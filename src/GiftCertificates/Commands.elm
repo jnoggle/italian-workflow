@@ -1,6 +1,6 @@
 module GiftCertificates.Commands exposing (..)
 
-import Http exposing (..)
+import Http
 import Json.Decode as Decode exposing (Decoder, field, maybe)
 import Json.Encode as Encode
 import Date exposing (Date, day, month, year)
