@@ -137,7 +137,7 @@ fetchAll =
 
 fetchTodays : Cmd Msg
 fetchTodays =
-    Http.send OnFetchTodays <| getGiftCertificates todayUrl
+    Http.send OnFetch <| getGiftCertificates todayUrl
 
 
 fetchByDates : Date -> Date -> Cmd Msg

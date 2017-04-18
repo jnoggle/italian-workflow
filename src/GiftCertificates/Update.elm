@@ -33,12 +33,6 @@ update message model =
         OnFetch (Err error) ->
             ( model, Cmd.none )
 
-        OnFetchTodays (Ok newGiftCertificates) ->
-            ( { model | giftCertificates = newGiftCertificates }, Cmd.none )
-
-        OnFetchTodays (Err error) ->
-            ( model, Cmd.none )
-
         OnGiftCertificateRedeemed (Ok msg) ->
             ( { model | redemptionStatus = msg, redeemId = "" }, Cmd.none )
 

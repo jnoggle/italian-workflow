@@ -10,7 +10,6 @@ type Msg
     = FetchGiftCertificates
     | FetchGiftCertificatesByDates
     | OnFetch (Result Http.Error (List GiftCertificate))
-    | OnFetchTodays (Result Http.Error (List GiftCertificate))
     | OnGiftCertificateRedeemed (Result Http.Error String)
     | SetAmount Float
     | SetMemo String
