@@ -31,9 +31,3 @@ type alias Model =
     , mdl : Material.Model
     , tab : Int
     }
-
-
-
--- initialModel : Model
--- initialModel =
---     Model [] 0.0 0.0 "" "" "" "" Nothing Nothing DatePicker.init Material.model 0

@@ -53,10 +53,6 @@ giftCertificateEncoder amount sale_price memo =
 
 datesEncoder : Date -> Date -> Encode.Value
 datesEncoder beginDate endDate =
-    -- Encode.object
-    --     [ ( "begin_date", Encode.string "2017-3-27" )
-    --     , ( "end_date", Encode.string "2017-3-20" )
-    --     ]
     Encode.object
         [ ( "begin_date", Encode.string (formatDate beginDate) )
         , ( "end_date", Encode.string (formatDate endDate) )
