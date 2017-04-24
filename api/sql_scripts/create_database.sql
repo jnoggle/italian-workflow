@@ -25,3 +25,16 @@ CREATE TABLE GiftCertificates (
     PRIMARY KEY (gift_certificate_id),
     FOREIGN KEY (issuer_id) REFERENCES Users (user_id) ON DELETE NO ACTION ON UPDATE NO ACTION
 );
+
+CREATE TABLE OverShorts (
+    over_short_id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    amount DECIMAL(10, 2) NOT NULL,
+    billable BOOLEAN NOT NULL,
+    amountPaid DECIMAL(10, 2),
+    date_recorded DATE NOT NULL,
+    last_contacted DATE,
+    issuer_id INT UNSIGNED NOT NULL,
+    memo VARCHAR(512) NOT NULL,
+    PRIMARY KEY(over_short_id),
+    FOREIGN KEY (issuer_id) REFERENCES Users (user_id) ON DELETE NO ACTION ON UPDATE NOT ACION
+);
