@@ -45,12 +45,26 @@ app.post('/gift-certificates', function (req, res) {
             return res.status(400).send("Database error");
         }
 
+        var username;
+
+        var usernameSql = 'SELECT username FROM Users WHERE user_id = ' + issuer_id;
+
+        var usernameQuery = conn.query(usernameSql, function(err, results) {
+            if (err) {
+                console.log(err);
+                return res.status(400).send("Error retrieving username");
+            }
+
+            username = results.username;
+            
+        })
+
         gc = {
             gift_certificate_id: results.insertId,
             amount: req.body.amount,
             sale_price: req.body.sale_price,
             date_sold: date_sold,
-            issuer_id: issuer_id,
+            issuer_id: username,
             memo: req.body.memo
         }
         res.status(201).json(gc);
