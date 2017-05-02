@@ -122,7 +122,7 @@ overShortDecoder =
         OverShort
         (field "over_short_id" Decode.int)
         (field "amount" Decode.float)
-        (field "billable" Decode.bool)
+        (field "billable" Decode.int)
         (maybe (field "amountPaid" Decode.float))
         (field "date_recorded" Decode.string)
         (maybe (field "last_contacted" Decode.string))

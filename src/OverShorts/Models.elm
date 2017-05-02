@@ -8,7 +8,7 @@ import Date exposing (Date, Day(..), day, dayOfWeek, month, year)
 type alias OverShort =
     { id : Int
     , amount : Float
-    , billable : Bool
+    , billable : Int
     , amountPaid : Maybe Float
     , date_recorded : String
     , last_contacted : Maybe String

@@ -244,13 +244,13 @@ overShortRow overShort =
         ]
 
 
-toYesNo : Bool -> String
-toYesNo boolean =
-    case boolean of
-        True ->
+toYesNo : Int -> String
+toYesNo int =
+    case int of
+        1 ->
             "Yes"
 
-        False ->
+        _ ->
             "No"
 
 
