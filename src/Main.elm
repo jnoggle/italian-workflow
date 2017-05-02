@@ -11,6 +11,10 @@ import GiftCertificates.Commands exposing (fetchTodays)
 import GiftCertificates.Subscriptions
 import GiftCertificates.Models
 import GiftCertificates.Init
+import OverShorts.Commands exposing (fetchTodays)
+import OverShorts.Subscriptions
+import OverShorts.Models
+import OverShorts.Init
 
 
 init : Location -> ( Model, Cmd Msg )
@@ -22,6 +26,9 @@ init location =
         ( giftCertificatesModel, giftCertificateCmd ) =
             GiftCertificates.Init.init
 
+        ( overShortsModel, overShortCmd ) =
+            OverShorts.Init.init
+
         model =
             { user_id = ""
             , username = ""
@@ -29,14 +36,15 @@ init location =
             , token = ""
             , errorMsg = ""
             , giftCertificates = giftCertificatesModel
+            , overShorts = overShortsModel
             , route = route
             , mdl = Material.model
             }
 
-        cmd =
-            Cmd.map GiftCertificateMsg giftCertificateCmd
+        cmds =
+            Cmd.batch [ Cmd.map GiftCertificateMsg giftCertificateCmd, Cmd.map OverShortMsg overShortCmd ]
     in
-        ( model, cmd )
+        ( model, cmds )
 
 
 
@@ -48,6 +56,7 @@ subscriptions model =
     Sub.batch
         [ Material.subscriptions Mdl model
         , Sub.map GiftCertificateMsg <| GiftCertificates.Subscriptions.subscriptions model.giftCertificates
+        , Sub.map OverShortMsg <| OverShorts.Subscriptions.subscriptions model.overShorts
         ]
 
 

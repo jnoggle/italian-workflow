@@ -36,5 +36,5 @@ CREATE TABLE OverShorts (
     issuer_id INT UNSIGNED NOT NULL,
     memo VARCHAR(512) NOT NULL,
     PRIMARY KEY(over_short_id),
-    FOREIGN KEY (issuer_id) REFERENCES Users (user_id) ON DELETE NO ACTION ON UPDATE NOT ACION
+    FOREIGN KEY (issuer_id) REFERENCES Users (user_id) ON DELETE NO ACTION ON UPDATE NO ACTION
 );

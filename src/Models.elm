@@ -3,6 +3,7 @@ module Models exposing (..)
 import Material
 import Routing
 import GiftCertificates.Models exposing (Model)
+import OverShorts.Models exposing (Model)
 
 
 type Field
@@ -17,12 +18,7 @@ type alias Model =
     , token : String
     , errorMsg : String
     , giftCertificates : GiftCertificates.Models.Model
+    , overShorts : OverShorts.Models.Model
     , route : Routing.Route
     , mdl : Material.Model
     }
-
-
-
--- initialModel : Routing.Route -> Model
--- initialModel route =
---     Model "" "" "" "" "" GiftCertificates.Models.initialModel route Material.model

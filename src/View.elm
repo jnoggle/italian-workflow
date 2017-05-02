@@ -18,6 +18,7 @@ import Messages exposing (Msg(..))
 import Models exposing (Model, Field(..))
 import Routing exposing (Route(..))
 import GiftCertificates.View
+import OverShorts.View
 
 
 type alias Mdl =
@@ -53,6 +54,9 @@ viewBody model =
 
         GiftCertificatesRoute ->
             Html.map GiftCertificateMsg (GiftCertificates.View.view model.giftCertificates)
+
+        OverShortsRoute ->
+            Html.map OverShortMsg (OverShorts.View.view model.overShorts)
 
         NotFoundRoute ->
             notFoundView
@@ -184,6 +188,7 @@ type alias MenuItem =
 menuItems : List MenuItem
 menuItems =
     [ { text = "Gift Certificates", iconName = "view_sequential", route = GiftCertificates }
+    , { text = "Overs and Shorts", iconName = "view_sequential", route = OverShorts }
     ]
 
 

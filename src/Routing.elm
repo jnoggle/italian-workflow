@@ -7,6 +7,7 @@ import UrlParser exposing (Parser, parseHash, s, map, top, oneOf)
 type Route
     = LoginRoute
     | GiftCertificatesRoute
+    | OverShortsRoute
     | NotFoundRoute
 
 
@@ -16,6 +17,7 @@ matchers =
         [ map LoginRoute top
         , map LoginRoute (s "login")
         , map GiftCertificatesRoute (s "giftcertificates")
+        , map OverShortsRoute (s "overshorts")
         ]
 
 

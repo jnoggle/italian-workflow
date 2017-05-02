@@ -7,6 +7,7 @@ import Models exposing (Model, Field(..))
 import Commands exposing (loginUrl, authUserCmd)
 import Routing exposing (parseLocation)
 import GiftCertificates.Update
+import OverShorts.Update
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -46,8 +47,18 @@ update msg model =
             in
                 ( { model | giftCertificates = updatedGiftCertificates }, Cmd.map GiftCertificateMsg cmd )
 
+        OverShortMsg subMsg ->
+            let
+                ( updatedOverShorts, cmd ) =
+                    OverShorts.Update.update subMsg model.overShorts
+            in
+                ( { model | overShorts = updatedOverShorts }, Cmd.map OverShortMsg cmd )
+
         GiftCertificates ->
             ( model, Navigation.newUrl "#giftcertificates" )
+
+        OverShorts ->
+            ( model, Navigation.newUrl "#overshorts" )
 
         Mdl msg_ ->
             Material.update Mdl msg_ model
